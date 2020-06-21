@@ -4,7 +4,7 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 
 class LinearAnimator(fps:Long, valueUpdateListener:ValueAnimator.AnimatorUpdateListener, repeatListener: Animator.AnimatorListener) {
-    private val animator:ValueAnimator = ValueAnimator.ofFloat(0ft, MAX_VALUE).apply {
+    private val animator:ValueAnimator = ValueAnimator.ofFloat(0f, MAX_VALUE).apply {
         repeatMode = ValueAnimator.RESTART
         repeatCount = ValueAnimator.INFINITE
         duration = 1000L / fps
