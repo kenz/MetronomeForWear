@@ -1,3 +1,4 @@
+include ':tact'
 include ':metronome'
 include ':wear'
 include ':mobile'
