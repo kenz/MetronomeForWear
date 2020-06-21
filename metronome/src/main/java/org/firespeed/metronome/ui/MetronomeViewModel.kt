@@ -1,10 +1,12 @@
 package org.firespeed.metronome.ui
 
 import android.view.View
+import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import org.firespeed.metronome.animator.LinearAnimator
 
-class MetronomeViewModel : ViewModel() {
+class MetronomeViewModel : ViewModel(),LifecycleObserver {
     val fps: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>()
     }
@@ -12,14 +14,19 @@ class MetronomeViewModel : ViewModel() {
         MutableLiveData<Boolean>()
     }
 
-    fun start() {
+
+    private val animator= LinearAnimator()
+
+    private fun start() {
         if (enable.value != true) {
             enable.postValue(true)
+            animator.start()
         }
     }
 
-    fun stop() {
+    private fun stop() {
         enable.postValue(false)
+        animator.stop()
     }
 
     fun startStop() =

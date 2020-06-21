@@ -18,23 +18,29 @@ class MetronomeFragment : Fragment() {
     }
 
     private val viewModel: MetronomeViewModel by activityViewModels()
+    private var binding: MetronomeFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return DataBindingUtil.inflate<MetronomeFragmentBinding>(
+        val binding = DataBindingUtil.inflate<MetronomeFragmentBinding>(
             inflater,
             R.layout.metronome_fragment,
             container,
             false
-        ).let {
+        ).also {
             it.fragment = this
             it.lifecycleOwner = this
             it.viewModel = viewModel
-            it.root
         }
+        return binding.root
 
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
