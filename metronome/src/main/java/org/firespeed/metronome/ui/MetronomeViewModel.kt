@@ -1,5 +1,6 @@
 package org.firespeed.metronome.ui
 
+import android.view.View
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
@@ -12,7 +13,7 @@ class MetronomeViewModel : ViewModel() {
     }
 
     fun start() {
-        if (enable.value != true){
+        if (enable.value != true) {
             enable.postValue(true)
         }
     }
@@ -20,4 +21,7 @@ class MetronomeViewModel : ViewModel() {
     fun stop() {
         enable.postValue(false)
     }
+
+    fun startStop() =
+        if (enable.value == true) stop() else start()
 }
