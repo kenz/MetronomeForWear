@@ -33,7 +33,9 @@ class MetronomeFragment : Fragment() {
             it.fragment = this
             it.lifecycleOwner = this
             it.viewModel = viewModel
+
         }
+        lifecycle.addObserver(viewModel)
         return binding.root
 
     }
