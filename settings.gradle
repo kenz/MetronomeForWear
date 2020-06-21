@@ -1,2 +1,4 @@
-include ':app'
-rootProject.name = "Metronome"
+include ':metronome'
+include ':wear'
+include ':mobile'
+rootProject.name = "My Application"
