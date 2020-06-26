@@ -13,6 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import org.firespeed.metronome.R
+import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
 import org.firespeed.metronome.animator.LinearAnimator
 import org.firespeed.metronome.databinding.MetronomeFragmentBinding
@@ -55,7 +56,9 @@ class MetronomeFragment : Fragment() {
         context?.let { context ->
             val vibrator = context.getSystemService(VIBRATOR_SERVICE) as Vibrator
             val taktAction = VibratorTaktAction(vibrator, 100L)
+            val beepAction = BeepTaktAction()
             viewModel.onTaktTimeListener = {
+                beepAction.action()
                 taktAction.action()
             }
         }
