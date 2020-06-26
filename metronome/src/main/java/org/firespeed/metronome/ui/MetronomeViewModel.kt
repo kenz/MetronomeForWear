@@ -24,13 +24,13 @@ class MetronomeViewModel : ViewModel(), LifecycleObserver{
     fun updateBpm(bpm:Int){
         if(this.bpm.value != bpm){
             this.bpm.value = bpm
+            animator?.bpm = bpm
         }
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     fun onStart() {
         bpm.postValue(60)
-
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)

@@ -17,11 +17,12 @@ class LinearAnimator(
     }
 
     fun start() = animator.start()
-    fun stop() = animator.cancel()
-    var bps: Int
+    fun stop() = animator.end()
+    var bpm: Int
         get() = (animator.duration / 60L / 1000L).toInt()
         set(v) {
             animator.duration = 1000L * 60L / v
+            animator.reset()
         }
 
     companion object {
