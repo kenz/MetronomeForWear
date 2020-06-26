@@ -45,7 +45,7 @@ class MetronomeViewModel : ViewModel(), LifecycleObserver{
         if (enable.value != true) {
             enable.postValue(true)
             val valueUpdateListener = ValueAnimator.AnimatorUpdateListener {
-                onValueUpdateListener?.invoke(it.animatedValue as Float)
+                onValueUpdateListener?.invoke(it.animatedValue as Int)
             }
 
             val repeatListener = object : AnimatorListener {
@@ -63,7 +63,7 @@ class MetronomeViewModel : ViewModel(), LifecycleObserver{
     }
 
     var onTaktTimeListener: (()->Unit)? = null
-    var onValueUpdateListener: ((Float)->Unit)? = null
+    var onValueUpdateListener: ((Int)->Unit)? = null
 
     private fun stop() {
         enable.postValue(false)
