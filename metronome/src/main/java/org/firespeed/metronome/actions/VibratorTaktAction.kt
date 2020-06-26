@@ -5,14 +5,14 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.annotation.RequiresApi
 
-class VibratorHelper(vibrator: Vibrator, strong: Long) {
+class VibratorTaktAction(vibrator: Vibrator, strong: Long):TaktAction {
 
     private val action: VibratorAction
 
     init {
         action =
             when {
-                Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q -> OreoVibrator(
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> OreoVibrator(
                     vibrator,
                     VibrationEffect.createPredefined(VibrationEffect.EFFECT_CLICK)
                 )
@@ -24,7 +24,7 @@ class VibratorHelper(vibrator: Vibrator, strong: Long) {
             }
     }
 
-    fun action() = action.action()
+    override fun action() = action.action()
 
     private interface VibratorAction {
         val vibrator: Vibrator
@@ -41,6 +41,5 @@ class VibratorHelper(vibrator: Vibrator, strong: Long) {
         VibratorAction {
         override fun action() = vibrator.vibrate(vibe)
     }
-
 
 }
