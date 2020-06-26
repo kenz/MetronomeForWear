@@ -45,6 +45,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/chkEnable" />
 
+        <SeekBar
+            android:id="@+id/seekBmp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="208"
+            android:progress="@{viewModel.bpm}"
+            app:layout_constraintBottom_toTopOf="@+id/btnStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/editBpm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:ems="10"
+            android:text="@{viewModel.bpm.toString()}"
+            android:inputType="numberSigned"
+            app:layout_constraintBottom_toTopOf="@+id/seekBmp"
+            tools:layout_editor_absoluteX="106dp" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
