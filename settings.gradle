@@ -1,4 +1,4 @@
 include ':metronome'
 include ':wear'
 include ':mobile'
-rootProject.name = "My Application"
+rootProject.name = "Metronome"
