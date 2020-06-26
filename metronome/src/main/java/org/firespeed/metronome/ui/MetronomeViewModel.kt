@@ -3,10 +3,7 @@ package org.firespeed.metronome.ui
 import android.animation.Animator
 import android.animation.Animator.AnimatorListener
 import android.animation.ValueAnimator
-import androidx.databinding.BaseObservable
 import androidx.lifecycle.*
-import org.firespeed.metronome.actions.TaktAction
-import org.firespeed.metronome.actions.VibratorTaktAction
 import org.firespeed.metronome.animator.LinearAnimator
 
 class MetronomeViewModel : ViewModel(), LifecycleObserver{
