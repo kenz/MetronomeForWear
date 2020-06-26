@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import org.firespeed.metronome.R
 import org.firespeed.metronome.actions.VibratorTaktAction
+import org.firespeed.metronome.animator.LinearAnimator
 import org.firespeed.metronome.databinding.MetronomeFragmentBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
 
@@ -59,7 +60,7 @@ class MetronomeFragment : Fragment() {
             }
         }
         viewModel.onValueUpdateListener = {
-            binding.progressBar.max = 255
+            binding.progressBar.max = LinearAnimator.MAX_VALUE
             binding.progressBar.progress = it.toInt()
         }
         return binding.root
