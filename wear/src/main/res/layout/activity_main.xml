@@ -1,25 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/dark_grey"
-    android:padding="@dimen/box_inset_layout_padding"
-    tools:context=".MainActivity"
-    tools:deviceIds="wear">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.firespeed.metronome.ui.MetronomeViewModel" />
+
+        <variable
+            name="activity"
+            type="org.firespeed.metronome.MainActivity" />
+    </data>
+
+    <androidx.wear.widget.BoxInsetLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
+        android:background="@color/dark_grey"
+        android:padding="@dimen/box_inset_layout_padding"
+        tools:context=".MainActivity"
+        tools:deviceIds="wear">
 
-        <TextView
-            android:id="@+id/text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/metronome"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/inner_frame_layout_padding"
+            app:boxedEdges="all">
 
-    </FrameLayout>
-</androidx.wear.widget.BoxInsetLayout>
+            <Button
+                android:id="@+id/btnStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{() -> viewModel.startStop()}"
+                android:text="start"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnStart" />
+
+            <SeekBar
+                android:id="@+id/seekBmp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:max="208"
+                android:progress="@{viewModel.bpm}"
+                app:layout_constraintBottom_toTopOf="@+id/btnStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/editBpm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="numberSigned"
+                android:text="@{viewModel.bpm.toString()}"
+                app:layout_constraintBottom_toTopOf="@+id/seekBmp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteX="106dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+       
+    </androidx.wear.widget.BoxInsetLayout>
+</layout>

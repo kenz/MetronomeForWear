@@ -26,14 +26,6 @@
             android:onClick="@{() -> viewModel.startStop()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <CheckBox
-            android:id="@+id/chkEnable"
-            android:layout_width="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/btnStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:checked="@{viewModel.enable}"
-            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -43,7 +35,7 @@
             android:layout_margin="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chkEnable" />
+            app:layout_constraintTop_toBottomOf="@+id/btnStart" />
 
         <SeekBar
             android:id="@+id/seekBmp"

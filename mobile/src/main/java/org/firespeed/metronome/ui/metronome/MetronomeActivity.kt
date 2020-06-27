@@ -16,4 +16,5 @@ class MetronomeActivity : AppCompatActivity() {
                 .commitNow()
         }
     }
+
 }
