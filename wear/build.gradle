@@ -1,10 +1,17 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
 
+    buildFeatures {
+        dataBinding true
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
     defaultConfig {
         applicationId "org.firespeed.myapplication"
         minSdkVersion 23
@@ -25,13 +32,18 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'com.google.android.support:wearable:2.5.0'
+    implementation project(':metronome')
+    implementation 'androidx.core:core-ktx:1.3.0'
+    implementation "androidx.collection:collection-ktx:1.1.0"
+    implementation "androidx.activity:activity-ktx:1.1.0"
+    implementation 'com.google.android.support:wearable:2.7.0'
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
     implementation 'androidx.percentlayout:percentlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.wear:wear:1.0.0'
-    compileOnly 'com.google.android.wearable:wearable:2.5.0'
+    compileOnly 'com.google.android.wearable:wearable:2.7.0'
     wearApp project(":wear")
 }
