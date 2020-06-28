@@ -47,6 +47,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             override fun onStopTrackingTouch(p0: SeekBar?) {}
 
         })
+        binding.seekBmp.progress = 60
         binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
         binding.progressBar.max = LinearAnimator.MAX_VALUE
 
@@ -54,18 +55,22 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         val taktAction = VibratorTaktAction(vibrator, 30L)
         val beepAction = BeepTaktAction()
-        viewModel.onTaktTimeListener = {
+        viewModel.setTaktTimeListener {
             beepAction.action()
             taktAction.action()
         }
 
-        viewModel.onValueUpdateListener = {
+        viewModel.setValueUpdateListener {
             binding.progressBar.progress = it
         }
 
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager
+
         @Suppress("DEPRECATION")
-        val wakeLock = powerManager.newWakeLock(PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "FlashWear:WatchFaceWakelockTag") // note WakeLock spelling
+        val wakeLock = powerManager.newWakeLock(
+            PowerManager.SCREEN_BRIGHT_WAKE_LOCK,
+            "FlashWear:WatchFaceWakelockTag"
+        ) // note WakeLock spelling
         wakeLock.acquire(Long.MAX_VALUE)
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
