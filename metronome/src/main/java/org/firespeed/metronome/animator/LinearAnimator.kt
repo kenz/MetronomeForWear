@@ -8,10 +8,11 @@ class LinearAnimator(
     valueUpdateListener: ValueAnimator.AnimatorUpdateListener,
     repeatListener: Animator.AnimatorListener
 ) {
+    private val bpmCalculator = BpmCalculator()
     private val animator: ValueAnimator = ValueAnimator.ofInt(0, MAX_VALUE).apply {
         repeatMode = ValueAnimator.RESTART
         repeatCount = ValueAnimator.INFINITE
-        duration = 1000L * 60L / bpm
+        duration = bpmCalculator.toDuration(bpm)
         addUpdateListener(valueUpdateListener)
         addListener(repeatListener)
     }
@@ -19,9 +20,9 @@ class LinearAnimator(
     fun start() = animator.start()
     fun stop() = animator.end()
     var bpm: Int
-        get() = (animator.duration / 60L / 1000L).toInt()
+        get() = bpmCalculator.toBpm(animator.duration )
         set(v) {
-            animator.duration = 1000L * 60L / v
+            animator.duration = bpmCalculator.toDuration(v)
             animator.reset()
         }
 

@@ -43,13 +43,14 @@ class MetronomeFragment : Fragment() {
         }
         binding.seekBmp.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                viewModel.updateBpm(p1)
+                viewModel.setBpm(p1)
             }
+
             override fun onStartTrackingTouch(p0: SeekBar?) {}
             override fun onStopTrackingTouch(p0: SeekBar?) {}
 
         })
-        binding.editBpm.addTextChangedListener { viewModel.updateBpm(it.toString()) }
+        binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
         binding.progressBar.max = LinearAnimator.MAX_VALUE
 
         lifecycle.addObserver(viewModel)
@@ -57,12 +58,12 @@ class MetronomeFragment : Fragment() {
             val vibrator = context.getSystemService(VIBRATOR_SERVICE) as Vibrator
             val taktAction = VibratorTaktAction(vibrator, 100L)
             val beepAction = BeepTaktAction()
-            viewModel.onTaktTimeListener = {
+            viewModel.setTaktTimeListener {
                 beepAction.action()
                 taktAction.action()
             }
         }
-        viewModel.onValueUpdateListener = {
+        viewModel.setValueUpdateListener {
             binding.progressBar.progress = it
         }
         return binding.root

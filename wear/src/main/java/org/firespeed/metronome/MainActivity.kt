@@ -40,14 +40,14 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         }
         binding.seekBmp.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                viewModel.updateBpm(p1)
+                viewModel.setBpm(p1)
             }
 
             override fun onStartTrackingTouch(p0: SeekBar?) {}
             override fun onStopTrackingTouch(p0: SeekBar?) {}
 
         })
-        binding.editBpm.addTextChangedListener { viewModel.updateBpm(it.toString()) }
+        binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
         binding.progressBar.max = LinearAnimator.MAX_VALUE
 
         lifecycle.addObserver(viewModel)
