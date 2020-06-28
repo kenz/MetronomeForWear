@@ -52,7 +52,7 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
 
         lifecycle.addObserver(viewModel)
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        val taktAction = VibratorTaktAction(vibrator, 100L)
+        val taktAction = VibratorTaktAction(vibrator, 30L)
         val beepAction = BeepTaktAction()
         viewModel.onTaktTimeListener = {
             beepAction.action()

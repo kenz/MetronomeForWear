@@ -14,67 +14,62 @@
             type="org.firespeed.metronome.MainActivity" />
     </data>
 
-    <androidx.wear.widget.BoxInsetLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/metronome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/dark_grey"
-        android:padding="@dimen/box_inset_layout_padding"
+        android:background="@color/black"
+        app:boxedEdges="all"
         tools:context=".MainActivity"
         tools:deviceIds="wear">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/metronome"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="@dimen/inner_frame_layout_padding"
-            app:boxedEdges="all">
-
-            <Button
-                android:id="@+id/btnStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{() -> viewModel.startStop()}"
-                android:text="start"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ProgressBar
-                android:id="@+id/progressBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btnStart" />
-
-            <SeekBar
-                android:id="@+id/seekBmp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:max="208"
-                android:progress="@{viewModel.bpm}"
-                app:layout_constraintBottom_toTopOf="@+id/btnStart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <EditText
-                android:id="@+id/editBpm"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="numberSigned"
-                android:text="@{viewModel.bpm.toString()}"
-                app:layout_constraintBottom_toTopOf="@+id/seekBmp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                tools:layout_editor_absoluteX="106dp" />
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/background"
+            android:onClick="@{() -> viewModel.startStop()}"
+            android:src="@drawable/background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+            />
 
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnStart" />
 
-       
-    </androidx.wear.widget.BoxInsetLayout>
+        <SeekBar
+            android:id="@+id/seekBmp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:max="208"
+            android:progress="@{viewModel.bpm}"
+            app:layout_constraintBottom_toTopOf="@+id/btnStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/editBpm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="numberSigned"
+            android:text="@{viewModel.bpm.toString()}"
+            app:layout_constraintBottom_toTopOf="@+id/seekBmp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteX="106dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>
