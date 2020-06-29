@@ -34,18 +34,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
             />
+        <ImageView
+            android:id="@+id/hand_shadow"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/hand_shadow"
+            app:layout_constraintBottom_toBottomOf="@id/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.550"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintVertical_bias="0.26"
+            app:layout_constraintWidth_percent="0.04326" />
 
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:id="@+id/hand"
             android:src="@drawable/hand"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.53"
+            app:layout_constraintHeight_percent="0.550"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.26"
-            app:layout_constraintWidth_percent="0.024" />
+            app:layout_constraintWidth_percent="0.04326" />
         <ImageView
             android:layout_width="0dp"
             android:layout_height="0dp"
