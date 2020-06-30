@@ -51,7 +51,7 @@ class MetronomeFragment : Fragment() {
 
         })
         binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
-        binding.progressBar.max = LinearAnimator.MAX_VALUE
+        binding.progressBar.max = 360
 
         lifecycle.addObserver(viewModel)
         context?.let { context ->
@@ -64,7 +64,7 @@ class MetronomeFragment : Fragment() {
             }
         }
         viewModel.setValueUpdateListener {
-            binding.progressBar.progress = it
+            binding.progressBar.progress = it.toInt()
         }
         return binding.root
     }

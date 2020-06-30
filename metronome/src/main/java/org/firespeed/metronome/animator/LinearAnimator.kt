@@ -10,7 +10,7 @@ class LinearAnimator(
     repeatListener: Animator.AnimatorListener
 ) {
     private val bpmCalculator = BpmCalculator()
-    private val animator: ValueAnimator = ValueAnimator.ofFloat(0f, 1f).apply {
+    private val animator: ValueAnimator = ValueAnimator.ofFloat(0f, 360f).apply {
         repeatMode = ValueAnimator.RESTART
         repeatCount = ValueAnimator.INFINITE
         duration = bpmCalculator.toDuration(bpm)
