@@ -7,7 +7,7 @@ import org.firespeed.metronome.animator.LinearAnimator
 
 class MetronomeController {
 
-    var valueUpdateListener: ((Int) -> Unit)? = null
+    var valueUpdateListener: ((Float) -> Unit)? = null
     var taktTimeListener: (() -> Unit)? = null
     private val animator: LinearAnimator
 
@@ -20,7 +20,7 @@ class MetronomeController {
 
     init {
         val valueUpdateListener = ValueAnimator.AnimatorUpdateListener {
-            valueUpdateListener?.invoke(it.animatedValue as Int)
+            valueUpdateListener?.invoke(it.animatedValue as Float)
         }
 
         val repeatListener = object : Animator.AnimatorListener {

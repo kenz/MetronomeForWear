@@ -49,7 +49,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         })
         binding.seekBmp.progress = 60
         binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
-        binding.progressBar.max = LinearAnimator.MAX_VALUE
 
         lifecycle.addObserver(viewModel)
         val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -61,7 +60,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         }
 
         viewModel.setValueUpdateListener {
-            binding.progressBar.progress = it
+            val rotation = it * 360
+            binding.hand.rotation = rotation
         }
 
         val powerManager = getSystemService(Context.POWER_SERVICE) as PowerManager

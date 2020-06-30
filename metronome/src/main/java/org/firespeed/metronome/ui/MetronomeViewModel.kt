@@ -25,7 +25,7 @@ class MetronomeViewModel : ViewModel(), LifecycleObserver {
         metronomeController.taktTimeListener = listener
     }
 
-    fun setValueUpdateListener(listener: (Int) -> Unit) {
+    fun setValueUpdateListener(listener: (Float) -> Unit) {
         metronomeController.valueUpdateListener = listener
     }
 

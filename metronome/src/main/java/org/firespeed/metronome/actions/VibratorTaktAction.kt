@@ -5,7 +5,7 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.annotation.RequiresApi
 
-class VibratorTaktAction(vibrator: Vibrator, strong: Long):TaktAction {
+class VibratorTaktAction(vibrator: Vibrator, strong: Long) : TaktAction {
 
     private val action: VibratorAction
 
@@ -22,6 +22,7 @@ class VibratorTaktAction(vibrator: Vibrator, strong: Long):TaktAction {
                 )
                 else -> LegacyVibrator(vibrator, strong)
             }
+
     }
 
     override fun action() = action.action()
