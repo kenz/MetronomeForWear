@@ -71,28 +71,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-
-        <SeekBar
-            android:id="@+id/seekBmp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:max="208"
-            android:progress="@{viewModel.bpm}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
         <EditText
             android:id="@+id/editBpm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:textCursorDrawable="@null"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="0dp"
+            android:background="@null"
             android:ems="10"
+            android:cursorVisible="false"
+            android:fontFamily="@font/orbitron"
             android:inputType="numberSigned"
             android:text="@{viewModel.bpm.toString()}"
-            app:layout_constraintBottom_toTopOf="@+id/seekBmp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteX="106dp" />
+            app:autoSizeTextType="uniform"
+            android:textColor="#e0e0e0"
+            app:layout_constraintHeight_percent="0.125"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintHorizontal_bias="0.76"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintWidth_percent="0.2365"
+            tools:text="199" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

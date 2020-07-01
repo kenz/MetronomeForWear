@@ -12,7 +12,7 @@ class MetronomeController {
     private val animator: LinearAnimator
 
     val bpm: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
+        MutableLiveData<Int>().apply{ value = DEFAULT_BPM }
     }
     val enable: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
@@ -54,7 +54,9 @@ class MetronomeController {
     }
 
     companion object {
-        private const val DEFAULT_BPM = 0
+        private const val DEFAULT_BPM = 60
+        private const val MAX_BPM = 60
+
     }
 
 }
