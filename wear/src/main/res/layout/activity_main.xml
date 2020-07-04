@@ -23,17 +23,86 @@
         app:boxedEdges="all"
         tools:context=".MainActivity"
         tools:deviceIds="wear">
+
         <ImageView
+            android:id="@+id/background"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/background"
             android:onClick="@{() -> viewModel.startStop()}"
             android:src="@drawable/background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-            />
+        <EditText
+            android:id="@+id/editBpm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@null"
+            android:capitalize="none"
+            android:cursorVisible="false"
+            android:drawablePadding="0dp"
+            android:ems="10"
+            android:fadingEdge="none"
+            android:fontFamily="@font/orbitron"
+            android:gravity="end"
+            android:inputType="numberSigned"
+            android:padding="0dp"
+            android:text="@{viewModel.bpm.toString()}"
+            android:textColor="#e0e0e0"
+            android:textCursorDrawable="@null"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintHeight_percent="0.125"
+            app:layout_constraintHorizontal_bias="0.76"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintWidth_percent="0.2365"
+            tools:text="199" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/reset"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintHeight_percent="0.1057"
+            app:layout_constraintHorizontal_bias="0.72"
+            app:layout_constraintStart_toStartOf="@id/background"
+            android:id="@+id/reset"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintVertical_bias="0.36"
+            app:layout_constraintWidth_percent="0.252" />
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/sound"
+            android:id="@+id/sound"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintHeight_percent="0.149"
+            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintVertical_bias="0.36"
+            app:layout_constraintWidth_percent="0.0998" />
+
+        <ImageView
+            android:id="@+id/vibrator"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:src="@drawable/vibrator"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintHeight_percent="0.125"
+            app:layout_constraintHorizontal_bias="0.33"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintVertical_bias="0.64"
+            app:layout_constraintWidth_percent="0.125" />
+
         <ImageView
             android:id="@+id/hand_shadow"
             android:layout_width="0dp"
@@ -71,28 +140,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/editBpm"
-            android:textCursorDrawable="@null"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="0dp"
-            android:background="@null"
-            android:ems="10"
-            android:cursorVisible="false"
-            android:fontFamily="@font/orbitron"
-            android:inputType="numberSigned"
-            android:text="@{viewModel.bpm.toString()}"
-            app:autoSizeTextType="uniform"
-            android:textColor="#e0e0e0"
-            app:layout_constraintHeight_percent="0.125"
-            app:layout_constraintBottom_toBottomOf="@+id/background"
-            app:layout_constraintEnd_toEndOf="@id/background"
-            app:layout_constraintHorizontal_bias="0.76"
-            app:layout_constraintStart_toStartOf="@id/background"
-            app:layout_constraintTop_toTopOf="@id/background"
-            app:layout_constraintWidth_percent="0.2365"
-            tools:text="199" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
