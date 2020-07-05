@@ -3,7 +3,6 @@ package org.firespeed.metronome.ui.metronome
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import org.firespeed.metronome.R
-import org.firespeed.metronome.ui.metronome.MetronomeFragment
 
 class MetronomeActivity : AppCompatActivity() {
 

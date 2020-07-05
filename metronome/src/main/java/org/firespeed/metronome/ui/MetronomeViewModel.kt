@@ -6,7 +6,7 @@ import org.firespeed.metronome.controller.MetronomeController
 class MetronomeViewModel : ViewModel(), LifecycleObserver {
     private val metronomeController: MetronomeController = MetronomeController()
     val bpm: MutableLiveData<Int>
-    val enable: MutableLiveData<Boolean>
+    private val enable: MutableLiveData<Boolean>
 
     init {
         bpm = metronomeController.bpm
@@ -28,7 +28,6 @@ class MetronomeViewModel : ViewModel(), LifecycleObserver {
     fun setValueUpdateListener(listener: (Float) -> Unit) {
         metronomeController.valueUpdateListener = listener
     }
-
 
     fun startStop() = if (enable.value == true) stop() else start()
     fun reset() = metronomeController.reset()

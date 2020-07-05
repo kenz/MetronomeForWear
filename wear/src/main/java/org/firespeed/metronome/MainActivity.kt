@@ -21,12 +21,9 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         return MyAmbientCallback()
     }
 
-    class MyAmbientCallback : AmbientModeSupport.AmbientCallback() {
-
-    }
+    class MyAmbientCallback : AmbientModeSupport.AmbientCallback()
 
     private val viewModel: MetronomeViewModel by viewModels()
-    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

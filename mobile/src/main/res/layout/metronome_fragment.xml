@@ -53,6 +53,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:autofillHints=""
             android:ems="10"
             android:text="@{viewModel.bpm.toString()}"
             android:inputType="numberSigned"

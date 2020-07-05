@@ -7,7 +7,7 @@ import org.junit.Assert.*
 
 
 class BpmCalculatorTest {
-    val target = BpmCalculator()
+    private val target = BpmCalculator()
 
     @Test
     fun testToBpm() {

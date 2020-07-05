@@ -71,7 +71,6 @@ class MetronomeController {
 
     companion object {
         private const val DEFAULT_BPM = 60
-        private const val MAX_BPM = 60
 
     }
 

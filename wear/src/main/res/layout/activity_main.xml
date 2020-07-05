@@ -43,6 +43,7 @@
             android:cursorVisible="false"
             android:drawablePadding="0dp"
             android:ems="10"
+            android:autofillHints=""
             android:fadingEdge="none"
             android:fontFamily="@font/orbitron"
             android:gravity="end"

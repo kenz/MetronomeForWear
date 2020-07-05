@@ -73,8 +73,4 @@ class MetronomeFragment : Fragment() {
         binding = null
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-    }
-
 }
