@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import org.firespeed.metronome.R
 import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
-import org.firespeed.metronome.animator.LinearAnimator
 import org.firespeed.metronome.databinding.MetronomeFragmentBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
 

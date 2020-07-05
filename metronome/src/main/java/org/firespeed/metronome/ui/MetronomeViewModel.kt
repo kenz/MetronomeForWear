@@ -31,4 +31,5 @@ class MetronomeViewModel : ViewModel(), LifecycleObserver {
 
 
     fun startStop() = if (enable.value == true) stop() else start()
+    fun reset() = metronomeController.reset()
 }
