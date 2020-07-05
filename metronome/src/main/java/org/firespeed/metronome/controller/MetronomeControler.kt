@@ -2,25 +2,28 @@ package org.firespeed.metronome.controller
 
 import android.animation.Animator
 import android.animation.ValueAnimator
+import android.view.animation.LinearInterpolator
 import androidx.lifecycle.MutableLiveData
-import org.firespeed.metronome.animator.LinearAnimator
+import org.firespeed.metronome.animator.BpmCalculator
+import org.firespeed.metronome.animator.reset
 
 class MetronomeController {
 
-    var valueUpdateListener: ((Int) -> Unit)? = null
+    var valueUpdateListener: ((Float) -> Unit)? = null
     var taktTimeListener: (() -> Unit)? = null
-    private val animator: LinearAnimator
 
     val bpm: MutableLiveData<Int> by lazy {
-        MutableLiveData<Int>()
+        MutableLiveData<Int>().apply{ value = DEFAULT_BPM }
     }
     val enable: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
+    private val animator: ValueAnimator
 
+    private val bpmCalculator = BpmCalculator()
     init {
         val valueUpdateListener = ValueAnimator.AnimatorUpdateListener {
-            valueUpdateListener?.invoke(it.animatedValue as Int)
+            valueUpdateListener?.invoke(it.animatedValue as Float)
         }
 
         val repeatListener = object : Animator.AnimatorListener {
@@ -32,7 +35,14 @@ class MetronomeController {
             override fun onAnimationEnd(anim: Animator?) {}
             override fun onAnimationCancel(anim: Animator?) {}
         }
-        animator = LinearAnimator(bpm.value ?: 0, valueUpdateListener, repeatListener)
+        animator = ValueAnimator.ofFloat(0f, 360f).apply {
+            repeatMode = ValueAnimator.RESTART
+            repeatCount = ValueAnimator.INFINITE
+            duration = bpmCalculator.toDuration(bpm.value?:0)
+            addUpdateListener(valueUpdateListener)
+            addListener(repeatListener)
+            interpolator = LinearInterpolator()
+        }
     }
 
     fun start() {
@@ -42,19 +52,30 @@ class MetronomeController {
 
     fun stop() {
         enable.postValue(false)
-        animator.stop()
+        animator.cancel()
     }
 
 
     fun setBpm(bpm: Int) {
         if (bpm != this.bpm.value) {
             this.bpm.value = bpm
-            animator.bpm = bpm
+            animator.duration = bpmCalculator.toDuration(bpm)
+            animator.reset()
         }
     }
 
-    companion object {
-        private const val DEFAULT_BPM = 0
+    fun reset(){
+        animator.reset()
+
     }
+
+    companion object {
+        private const val DEFAULT_BPM = 60
+        private const val MAX_BPM = 60
+
+    }
+
+
+
 
 }

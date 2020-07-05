@@ -14,7 +14,6 @@ import androidx.fragment.app.activityViewModels
 import org.firespeed.metronome.R
 import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
-import org.firespeed.metronome.animator.LinearAnimator
 import org.firespeed.metronome.databinding.MetronomeFragmentBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
 
@@ -51,7 +50,7 @@ class MetronomeFragment : Fragment() {
 
         })
         binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
-        binding.progressBar.max = LinearAnimator.MAX_VALUE
+        binding.progressBar.max = 360
 
         lifecycle.addObserver(viewModel)
         context?.let { context ->
@@ -64,7 +63,7 @@ class MetronomeFragment : Fragment() {
             }
         }
         viewModel.setValueUpdateListener {
-            binding.progressBar.progress = it
+            binding.progressBar.progress = it.toInt()
         }
         return binding.root
     }

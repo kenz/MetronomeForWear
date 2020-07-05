@@ -5,12 +5,12 @@ import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.annotation.RequiresApi
 
-class VibratorTaktAction(vibrator: Vibrator, strong: Long):TaktAction {
+class VibratorTaktAction(vibrator: Vibrator, strong: Long) : TaktAction {
 
-    private val action: VibratorAction
+    private val thread:Thread
 
     init {
-        action =
+        val action =
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> OreoVibrator(
                     vibrator,
@@ -22,9 +22,12 @@ class VibratorTaktAction(vibrator: Vibrator, strong: Long):TaktAction {
                 )
                 else -> LegacyVibrator(vibrator, strong)
             }
+        thread = Thread{
+            action.action()
+        }
     }
 
-    override fun action() = action.action()
+    override fun action() = thread.start()
 
     private interface VibratorAction {
         val vibrator: Vibrator
