@@ -126,11 +126,11 @@
             android:src="@drawable/hand_shadow"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.550"
+            app:layout_constraintHeight_percent="0.5673"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/background"
-            app:layout_constraintVertical_bias="0.26"
-            app:layout_constraintWidth_percent="0.04326" />
+            app:layout_constraintVertical_bias="0.17"
+            app:layout_constraintWidth_percent="0.0721" />
 
         <ImageView
             android:id="@+id/hand"
@@ -139,11 +139,11 @@
             android:src="@drawable/hand"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.550"
+            app:layout_constraintHeight_percent="0.5673"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/background"
-            app:layout_constraintVertical_bias="0.26"
-            app:layout_constraintWidth_percent="0.04326" />
+            app:layout_constraintVertical_bias="0.15"
+            app:layout_constraintWidth_percent="0.0721" />
 
         <ImageView
             android:id="@+id/hole_cap"
@@ -152,7 +152,7 @@
             android:src="@drawable/holecap"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.0865"
+            app:layout_constraintHeight_percent="0.105"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.0865" />
