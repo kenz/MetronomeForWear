@@ -1,6 +1,6 @@
 package org.firespeed.metronome.ui.metronome
 
-import android.content.Context.VIBRATOR_SERVICE
+import android.content.Context
 import android.os.Bundle
 import android.os.Vibrator
 import androidx.fragment.app.Fragment
@@ -54,13 +54,12 @@ class MetronomeFragment : Fragment() {
 
         lifecycle.addObserver(viewModel)
         context?.let { context ->
-            val vibrator = context.getSystemService(VIBRATOR_SERVICE) as Vibrator
-            val taktAction = VibratorTaktAction(vibrator, 100L)
-            val beepAction = BeepTaktAction()
-            viewModel.setTaktTimeListener {
-                beepAction.action()
-                taktAction.action()
-            }
+            viewModel.actionVibrator =
+                VibratorTaktAction(
+                    context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator,
+                    30L
+                )
+            viewModel.actionSound = BeepTaktAction()
         }
         viewModel.setValueUpdateListener {
             binding.progressBar.progress = it.toInt()

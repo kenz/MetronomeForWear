@@ -38,19 +38,14 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
 
         lifecycle.addObserver(viewModel)
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        val taktAction = VibratorTaktAction(vibrator, 30L)
-        val beepAction = BeepTaktAction()
-        viewModel.setTaktTimeListener {
-            beepAction.action()
-            taktAction.action()
-        }
+        viewModel.actionVibrator =
+            VibratorTaktAction(getSystemService(Context.VIBRATOR_SERVICE) as Vibrator, 30L)
+        viewModel.actionSound = BeepTaktAction()
 
         viewModel.setValueUpdateListener {
             binding.hand.rotation = it
             binding.handShadow.rotation = it
         }
-
 
         val centerY = (getSystemService(Context.WINDOW_SERVICE) as WindowManager).let {
             val size = Point()
