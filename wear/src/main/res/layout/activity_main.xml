@@ -12,6 +12,8 @@
         <variable
             name="activity"
             type="org.firespeed.metronome.MainActivity" />
+
+        <import type="android.view.View" />
     </data>
 
 
@@ -33,17 +35,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
         <EditText
             android:id="@+id/editBpm"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:autofillHints=""
             android:background="@null"
             android:capitalize="none"
             android:cursorVisible="false"
             android:drawablePadding="0dp"
             android:ems="10"
-            android:autofillHints=""
             android:fadingEdge="none"
             android:fontFamily="@font/orbitron"
             android:gravity="end"
@@ -53,56 +57,66 @@
             android:textColor="#e0e0e0"
             android:textCursorDrawable="@null"
             app:autoSizeTextType="uniform"
-            app:layout_constraintHeight_percent="0.125"
-            app:layout_constraintHorizontal_bias="0.76"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintHeight_percent="0.125"
+            app:layout_constraintHorizontal_bias="0.76"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintWidth_percent="0.2365"
+            tools:ignore="LabelFor"
             tools:text="199" />
 
         <ImageView
+            android:id="@+id/reset"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/reset"
+            android:onClick="@{() -> viewModel.reset()}"
             android:src="@drawable/reset"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintHeight_percent="0.1057"
             app:layout_constraintHorizontal_bias="0.72"
             app:layout_constraintStart_toStartOf="@id/background"
-            android:id="@+id/reset"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.36"
             app:layout_constraintWidth_percent="0.252" />
 
         <ImageView
+            android:id="@+id/sound"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/sound"
+            android:onClick="@{() -> viewModel.switchSound()}"
             android:src="@drawable/sound"
-            android:id="@+id/sound"
+            android:visibility="@{viewModel.}"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
-            app:layout_constraintHeight_percent="0.149"
+            app:layout_constraintHeight_percent="0.163"
+            app:layout_constraintWidth_percent="0.163"
             app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.36"
-            app:layout_constraintWidth_percent="0.0998" />
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/vibrator"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/vibrator"
+            android:onClick="@{() -> viewModel.switchVibrator()}"
             android:src="@drawable/vibrator"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
-            app:layout_constraintHeight_percent="0.125"
             app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.64"
-            app:layout_constraintWidth_percent="0.125" />
+            app:layout_constraintHeight_percent="0.163"
+            app:layout_constraintWidth_percent="0.163"
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/hand_shadow"
@@ -118,9 +132,9 @@
             app:layout_constraintWidth_percent="0.04326" />
 
         <ImageView
+            android:id="@+id/hand"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/hand"
             android:src="@drawable/hand"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="parent"
@@ -129,18 +143,18 @@
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.26"
             app:layout_constraintWidth_percent="0.04326" />
+
         <ImageView
+            android:id="@+id/hole_cap"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/hole_cap"
-            app:layout_constraintWidth_percent="0.0865"
-            app:layout_constraintHeight_percent="0.0865"
             android:src="@drawable/holecap"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHeight_percent="0.0865"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="0.0865" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
