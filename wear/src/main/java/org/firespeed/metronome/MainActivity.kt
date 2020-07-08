@@ -1,6 +1,7 @@
 package org.firespeed.metronome
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Point
 import android.os.Bundle
 import android.os.PowerManager
@@ -38,9 +39,12 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
 
         lifecycle.addObserver(viewModel)
-        viewModel.actionVibrator =
-            VibratorTaktAction(getSystemService(Context.VIBRATOR_SERVICE) as Vibrator, 30L)
-        viewModel.actionSound = BeepTaktAction()
+        if ((getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.hasVibrator() == true)
+            viewModel.actionVibrator =
+                VibratorTaktAction(getSystemService(Context.VIBRATOR_SERVICE) as Vibrator, 30L)
+
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_AUDIO_LOW_LATENCY))
+            viewModel.actionSound = BeepTaktAction()
 
         viewModel.setValueUpdateListener {
             binding.hand.rotation = it
