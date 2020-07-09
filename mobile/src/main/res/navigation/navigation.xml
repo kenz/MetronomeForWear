@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation.xml"
+    app:startDestination="@id/metronomeFragment">
+
+    <fragment
+        android:id="@+id/metronomeFragment"
+        android:name="org.firespeed.metronome.ui.metronome.MetronomeFragment"
+        tools:layout="@layout/metronome_fragment"
+        android:label="MetronomeFragment" >
+        <action
+            android:id="@+id/action_metronomeFragment_to_settingBpmFragment"
+            app:destination="@id/settingBpmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingBpmFragment"
+        tools:layout="@layout/setting_bpm_fragment"
+        android:name="org.firespeed.metronome.ui.settings.SettingBpmFragment"
+        android:label="SettingBpmFragment" />
+</navigation>

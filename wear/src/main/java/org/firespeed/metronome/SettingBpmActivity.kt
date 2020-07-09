@@ -1,15 +1,11 @@
-package org.firespeed.metronome.ui.metronome
+package org.firespeed.metronome
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import org.firespeed.metronome.R
 
-class MetronomeActivity : AppCompatActivity() {
-
+class SettingBpmActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.metronome_activity)
-
+        setContentView(R.layout.activity_setting_bpm)
     }
-
 }
