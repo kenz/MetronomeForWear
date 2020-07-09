@@ -6,7 +6,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import org.firespeed.metronome.R
+import org.firespeed.metronome.ui.MetronomeViewModel
 import org.firespeed.metronome.ui.SettingBpmViewModel
 
 class SettingBpmFragment : Fragment() {
@@ -14,8 +16,8 @@ class SettingBpmFragment : Fragment() {
     companion object {
         fun newInstance() = SettingBpmFragment()
     }
+    private val viewModel: SettingBpmViewModel by activityViewModels()
 
-    private lateinit var viewModel: SettingBpmViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,10 +26,5 @@ class SettingBpmFragment : Fragment() {
         return inflater.inflate(R.layout.setting_bpm_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(SettingBpmViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
 
 }
