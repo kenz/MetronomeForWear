@@ -1,4 +1,8 @@
 package org.firespeed.metronome
 
-class MetronomeApplication  {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+@HiltAndroidApp
+class MetronomeApplication: Application()  {
 }
