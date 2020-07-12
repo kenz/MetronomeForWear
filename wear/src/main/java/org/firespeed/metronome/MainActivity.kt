@@ -1,11 +1,13 @@
 package org.firespeed.metronome
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Point
 import android.os.Bundle
 import android.os.PowerManager
 import android.os.Vibrator
 import android.view.WindowManager
+import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.FragmentActivity
@@ -14,7 +16,6 @@ import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
 import org.firespeed.metronome.databinding.ActivityMainBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
-import androidx.activity.viewModels
 
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider {
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback? {
@@ -38,9 +39,12 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
 
         lifecycle.addObserver(viewModel)
-        viewModel.actionVibrator =
-            VibratorTaktAction(getSystemService(Context.VIBRATOR_SERVICE) as Vibrator, 30L)
-        viewModel.actionSound = BeepTaktAction()
+        if ((getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.hasVibrator() == true)
+            viewModel.actionVibrator =
+                VibratorTaktAction(getSystemService(Context.VIBRATOR_SERVICE) as Vibrator, 30L)
+
+        if (packageManager.hasSystemFeature(PackageManager.FEATURE_AUDIO_LOW_LATENCY))
+            viewModel.actionSound = BeepTaktAction()
 
         viewModel.setValueUpdateListener {
             binding.hand.rotation = it
@@ -54,10 +58,11 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
         }
         binding.hand.viewTreeObserver.addOnGlobalLayoutListener {
             binding.hand.pivotY = centerY - binding.hand.y
+            binding.hand.pivotX = binding.hand.width / 2f
             binding.handShadow.pivotY = binding.hand.pivotY + binding.handShadow.y - binding.hand.y
         }
         binding.handShadow.viewTreeObserver.addOnGlobalLayoutListener {
-            binding.handShadow.pivotY = centerY - binding.handShadow.y
+            binding.handShadow.pivotX = binding.handShadow.width / 2f
         }
 
         @Suppress("DEPRECATION")

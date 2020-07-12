@@ -89,8 +89,8 @@
             android:layout_height="0dp"
             android:contentDescription="@string/sound"
             android:onClick="@{() -> viewModel.switchSound()}"
-            android:src="@drawable/sound"
-            android:visibility="@{viewModel.}"
+            android:src="@{viewModel.isSoundEnable?@drawable/sound_on:@drawable/sound}"
+            android:visibility="@{viewModel.isSoundCapability?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintHeight_percent="0.163"
@@ -103,11 +103,12 @@
 
         <ImageView
             android:id="@+id/vibrator"
+            android:visibility="@{viewModel.isVibratorCapability?View.VISIBLE:View.GONE}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/vibrator"
             android:onClick="@{() -> viewModel.switchVibrator()}"
-            android:src="@drawable/vibrator"
+            android:src="@{viewModel.isVibratorEnable?@drawable/vibrator_on:@drawable/vibrator}"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintHorizontal_bias="0.33"
@@ -125,11 +126,11 @@
             android:src="@drawable/hand_shadow"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.550"
+            app:layout_constraintHeight_percent="0.5673"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/background"
-            app:layout_constraintVertical_bias="0.26"
-            app:layout_constraintWidth_percent="0.04326" />
+            app:layout_constraintVertical_bias="0.17"
+            app:layout_constraintWidth_percent="0.0721" />
 
         <ImageView
             android:id="@+id/hand"
@@ -138,11 +139,11 @@
             android:src="@drawable/hand"
             app:layout_constraintBottom_toBottomOf="@id/background"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.550"
+            app:layout_constraintHeight_percent="0.5673"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/background"
-            app:layout_constraintVertical_bias="0.26"
-            app:layout_constraintWidth_percent="0.04326" />
+            app:layout_constraintVertical_bias="0.15"
+            app:layout_constraintWidth_percent="0.0721" />
 
         <ImageView
             android:id="@+id/hole_cap"
@@ -151,7 +152,7 @@
             android:src="@drawable/holecap"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHeight_percent="0.0865"
+            app:layout_constraintHeight_percent="0.105"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintWidth_percent="0.0865" />

@@ -3,14 +3,14 @@ package org.firespeed.metronome.ui.metronome
 import android.content.Context
 import android.os.Bundle
 import android.os.Vibrator
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SeekBar
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import org.firespeed.metronome.R
 import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
@@ -49,7 +49,9 @@ class MetronomeFragment : Fragment() {
             override fun onStopTrackingTouch(p0: SeekBar?) {}
 
         })
-        binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
+        binding.txtBpm.setOnClickListener {
+            findNavController().navigate(R.id.action_metronomeFragment_to_settingBpmFragment)
+        }
         binding.progressBar.max = 360
 
         lifecycle.addObserver(viewModel)
