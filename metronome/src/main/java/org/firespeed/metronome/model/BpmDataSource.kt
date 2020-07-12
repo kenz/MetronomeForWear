@@ -6,8 +6,8 @@ import androidx.room.Query
 
 interface BpmDataSource {
     suspend fun addBpm(bpm:Bpm)
-    suspend fun getAll(): LiveData<List<Bpm>>
-    suspend fun loadById(uid: Long): LiveData<Bpm>
+    fun getAll(): LiveData<List<Bpm>>
+    fun loadById(uid: Long): LiveData<Bpm>
     suspend fun delete(uid: Long)
     suspend fun deleteAll()
 }

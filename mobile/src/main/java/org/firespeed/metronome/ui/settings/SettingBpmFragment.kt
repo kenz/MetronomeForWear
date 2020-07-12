@@ -1,14 +1,17 @@
 package org.firespeed.metronome.ui.settings
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import org.firespeed.metronome.R
-import org.firespeed.metronome.ui.MetronomeViewModel
+import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
+import org.firespeed.metronome.model.Bpm
 import org.firespeed.metronome.ui.SettingBpmViewModel
 
 class SettingBpmFragment : Fragment() {
@@ -16,6 +19,7 @@ class SettingBpmFragment : Fragment() {
     companion object {
         fun newInstance() = SettingBpmFragment()
     }
+
     private val viewModel: SettingBpmViewModel by activityViewModels()
 
 
@@ -23,7 +27,29 @@ class SettingBpmFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.setting_bpm_fragment, container, false)
+        val binding = DataBindingUtil.inflate<SettingBpmFragmentBinding>(
+            inflater,
+            R.layout.setting_bpm_fragment,
+            container,
+            false
+        ).also {
+            it.fragment = this
+            it.lifecycleOwner = this
+            it.viewModel = viewModel
+        }
+        binding.add.setOnClickListener {
+            val bpm = Bpm(
+                title = binding.title.text.toString(),
+                bpm = binding.bpm.text.toString().toInt(),
+                order = 0
+            )
+            viewModel.add(bpm)
+        }
+        viewModel.getAll().observe(this.viewLifecycleOwner, Observer {
+
+        })
+
+        return binding.root
     }
 
 
