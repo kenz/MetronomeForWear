@@ -4,13 +4,15 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import androidx.annotation.RequiresApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class VibratorTaktAction(vibrator: Vibrator, strong: Long) : TaktAction {
 
-    private val thread:Thread
-
+    private val action:VibratorAction
     init {
-        val action =
+        action =
             when {
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q -> OreoVibrator(
                     vibrator,
@@ -22,14 +24,12 @@ class VibratorTaktAction(vibrator: Vibrator, strong: Long) : TaktAction {
                 )
                 else -> LegacyVibrator(vibrator, strong)
             }
-        thread = Thread{
-            action.action()
-        }
     }
 
     override fun action() {
-        if (!thread.isAlive)
-            thread.start()
+        GlobalScope.launch(Dispatchers.Default){
+            action.action()
+        }
     }
 
     private interface VibratorAction {
