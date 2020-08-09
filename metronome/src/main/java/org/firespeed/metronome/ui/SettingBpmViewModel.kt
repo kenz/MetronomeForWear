@@ -11,8 +11,6 @@ import kotlinx.coroutines.launch
 import org.firespeed.metronome.model.Bpm
 import org.firespeed.metronome.model.BpmDataSource
 
-// todo: migrate to hilt.
-
 class SettingBpmViewModel @ViewModelInject constructor(
     private val bpmDataSource: BpmDataSource,
     @Assisted private val savedStateHandle: SavedStateHandle
