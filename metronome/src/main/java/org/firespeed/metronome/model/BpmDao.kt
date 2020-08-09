@@ -1,10 +1,7 @@
 package org.firespeed.metronome.model
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface BpmDao {
@@ -17,8 +14,11 @@ interface BpmDao {
     @Insert
     fun insertAll(vararg bpmList: Bpm)
 
-    @Query("DELETE FROM bpm_list WHERE uid = (:uid)")
-    fun delete(uid: Long)
+    @Update
+    fun update(vararg bpm: Bpm)
+
+    @Delete
+    fun delete(vararg bpm: Bpm)
 
     @Query("DELETE FROM bpm_list")
     fun deleteAll()

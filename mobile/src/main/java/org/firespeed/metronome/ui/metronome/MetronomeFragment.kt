@@ -10,20 +10,23 @@ import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import dagger.hilt.android.AndroidEntryPoint
 import org.firespeed.metronome.R
 import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
 import org.firespeed.metronome.databinding.MetronomeFragmentBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
 
+@AndroidEntryPoint
 class MetronomeFragment : Fragment() {
 
     companion object {
         fun newInstance() = MetronomeFragment()
     }
 
-    private val viewModel: MetronomeViewModel by activityViewModels()
+    private val viewModel: MetronomeViewModel by viewModels()
     private var binding: MetronomeFragmentBinding? = null
 
     override fun onCreateView(
@@ -66,8 +69,11 @@ class MetronomeFragment : Fragment() {
         viewModel.setValueUpdateListener {
             binding.progressBar.progress = it.toInt()
         }
+        viewModel.isVibratorEnable.postValue(true)
         return binding.root
+
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

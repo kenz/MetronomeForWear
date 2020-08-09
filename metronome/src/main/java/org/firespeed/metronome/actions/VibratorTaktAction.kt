@@ -27,7 +27,10 @@ class VibratorTaktAction(vibrator: Vibrator, strong: Long) : TaktAction {
         }
     }
 
-    override fun action() = thread.start()
+    override fun action() {
+        if (!thread.isAlive)
+            thread.start()
+    }
 
     private interface VibratorAction {
         val vibrator: Vibrator
@@ -40,6 +43,7 @@ class VibratorTaktAction(vibrator: Vibrator, strong: Long) : TaktAction {
         override fun action() = vibrator.vibrate(vibe)
     }
 
+    @Suppress("DEPRECATION")
     private class LegacyVibrator(override val vibrator: Vibrator, private val vibe: Long) :
         VibratorAction {
         override fun action() = vibrator.vibrate(vibe)

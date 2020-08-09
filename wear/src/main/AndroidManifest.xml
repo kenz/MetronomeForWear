@@ -11,7 +11,7 @@
         android:required="false" />
 
     <application
-        android:name=".MetronomeApplication"
+        android:name=".MetronomeWearApplication"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"

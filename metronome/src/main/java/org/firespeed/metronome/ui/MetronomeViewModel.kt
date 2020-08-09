@@ -1,10 +1,13 @@
 package org.firespeed.metronome.ui
 
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import org.firespeed.metronome.actions.TaktAction
 import org.firespeed.metronome.controller.MetronomeController
 
-class MetronomeViewModel : ViewModel(), LifecycleObserver {
+class MetronomeViewModel @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle) :
+    ViewModel(), LifecycleObserver {
     private val metronomeController: MetronomeController = MetronomeController()
     val bpm: MutableLiveData<Int>
     private val enable: MutableLiveData<Boolean>

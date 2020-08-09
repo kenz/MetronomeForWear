@@ -1,33 +1,26 @@
 package org.firespeed.metronome.ui
 
-import android.app.Application
-import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import androidx.hilt.Assisted
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.firespeed.metronome.model.Bpm
 import org.firespeed.metronome.model.BpmDataSource
-import org.firespeed.metronome.model.BpmDatabase
-import org.firespeed.metronome.model.BpmLocalDataSource
 
 // todo: migrate to hilt.
-class SettingBpmViewModel(application: Application) : AndroidViewModel(application) {
+
+class SettingBpmViewModel @ViewModelInject constructor(
+    private val bpmDataSource: BpmDataSource,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) : ViewModel() {
     private val bpmList = MutableLiveData<List<Bpm>>()
-    private val bpmDataSource: BpmDataSource
+    fun getAll() = bpmDataSource.getAll()
 
-    init {
-        val bpmDatabase =
-            Room.databaseBuilder(application, BpmDatabase::class.java, "bpm.db").build()
-        bpmDataSource = BpmLocalDataSource(bpmDatabase.bpmDao())
-        getAll()
-    }
-
-    fun getAll()  = bpmDataSource.getAll()
-
-    fun add(bpm:Bpm) = viewModelScope.launch(Dispatchers.IO){
+    fun add(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
         bpmDataSource.addBpm(bpm)
     }
 
