@@ -11,26 +11,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/item_list_background">
+
         <TextView
             android:id="@+id/bpm"
             android:layout_width="120sp"
-            android:textColor="@color/colorPrimary"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:textSize="60sp"
             android:padding="8sp"
+            android:text="@{Integer.toString(bpm.bpm)}"
+            android:textColor="@color/item_list_primary_dark"
+            android:textSize="60sp"
             tools:text="888" />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:textColor="@color/colorAccent"
-            android:paddingEnd="8dp"
-            android:textSize="14sp"
-            tools:text="hogehoge"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_height="wrap_content" />
+            android:layout_weight="1"
+            android:paddingStart="0dp"
+            android:paddingEnd="8dp"
+            android:text="@{bpm.title}"
+            android:textColor="@color/item_list_primary"
+            android:textSize="14sp"
+            tools:text="hogehoge" />
 
 
     </LinearLayout>
