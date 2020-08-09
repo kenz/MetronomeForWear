@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
@@ -46,8 +47,14 @@ class SettingBpmFragment : Fragment() {
             )
             viewModel.add(bpm)
         }
+        val adapter = BpmListAdapter{
+            // onClickListener
+            binding.selectedItem = it
+        }
+        binding.bpmList.layoutManager = LinearLayoutManager(context)
+        binding.bpmList.adapter = adapter
         viewModel.getAll().observe(this.viewLifecycleOwner, Observer {
-
+            adapter.setList(it)
         })
 
         return binding.root

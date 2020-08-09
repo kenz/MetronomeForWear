@@ -5,14 +5,14 @@
     <data>
 
         <variable
-            name="bpm"
+            name="item"
             type="org.firespeed.metronome.model.Bpm" />
     </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/item_list_background">
+        android:background="@drawable/item_list_background">
 
         <TextView
             android:id="@+id/bpm"
@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:padding="8sp"
-            android:text="@{Integer.toString(bpm.bpm)}"
+            android:text="@{Integer.toString(item.bpm)}"
             android:textColor="@color/item_list_primary_dark"
             android:textSize="60sp"
             tools:text="888" />
@@ -33,7 +33,7 @@
             android:layout_weight="1"
             android:paddingStart="0dp"
             android:paddingEnd="8dp"
-            android:text="@{bpm.title}"
+            android:text="@{item.title}"
             android:textColor="@color/item_list_primary"
             android:textSize="14sp"
             tools:text="hogehoge" />
