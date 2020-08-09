@@ -8,15 +8,15 @@
     <fragment
         android:id="@+id/metronomeFragment"
         android:name="org.firespeed.metronome.ui.metronome.MetronomeFragment"
-        tools:layout="@layout/metronome_fragment"
-        android:label="MetronomeFragment" >
+        android:label="MetronomeFragment"
+        tools:layout="@layout/metronome_fragment">
         <action
             android:id="@+id/action_metronomeFragment_to_settingBpmFragment"
             app:destination="@id/settingBpmFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingBpmFragment"
-        tools:layout="@layout/setting_bpm_fragment"
         android:name="org.firespeed.metronome.ui.settings.SettingBpmFragment"
-        android:label="SettingBpmFragment" />
+        android:label="SettingBpmFragment"
+        tools:layout="@layout/setting_bpm_fragment" />
 </navigation>

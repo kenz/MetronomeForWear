@@ -1,26 +1,27 @@
 package org.firespeed.metronome.ui.settings
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import dagger.hilt.android.AndroidEntryPoint
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
 import org.firespeed.metronome.model.Bpm
 import org.firespeed.metronome.ui.SettingBpmViewModel
 
+@AndroidEntryPoint
 class SettingBpmFragment : Fragment() {
 
     companion object {
         fun newInstance() = SettingBpmFragment()
     }
 
-    private val viewModel: SettingBpmViewModel by activityViewModels()
+    private val viewModel: SettingBpmViewModel by viewModels()
 
 
     override fun onCreateView(
