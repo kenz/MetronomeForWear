@@ -1,15 +1,14 @@
 package org.firespeed.metronome.model
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 
 @Dao
 interface BpmDao {
     @Query("SELECT * FROM bpm_list")
-    fun getAll(): LiveData<List<Bpm>>
+    fun getAll(): List<Bpm>
 
     @Query("SELECT * FROM bpm_list WHERE uid = (:uid)")
-    fun loadById(uid: Long): LiveData<Bpm>
+    fun loadById(uid: Long): Bpm
 
     @Insert
     fun insertAll(vararg bpmList: Bpm)

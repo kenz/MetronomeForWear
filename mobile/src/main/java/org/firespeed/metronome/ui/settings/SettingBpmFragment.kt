@@ -1,6 +1,7 @@
 package org.firespeed.metronome.ui.settings
 
 import android.os.Bundle
+import android.provider.Contacts
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,8 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.consume
+import kotlinx.coroutines.channels.consumeEach
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.launch
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
 import org.firespeed.metronome.model.Bpm
@@ -25,6 +33,7 @@ class SettingBpmFragment : Fragment() {
     private val viewModel: SettingBpmViewModel by viewModels()
 
 
+    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,11 +60,22 @@ class SettingBpmFragment : Fragment() {
             // onClickListener
             binding.selectedItem = it
         }
+        lifecycleScope.launch {
+            viewModel.bpmListFlow.collect{
+                adapter.setList(it)
+            }
+            viewModel.selectedBpmChannel.consume{
+
+            }
+
+        }
+        viewModel.getConfig()
         binding.bpmList.layoutManager = LinearLayoutManager(context)
         binding.bpmList.adapter = adapter
-        viewModel.getAll().observe(this.viewLifecycleOwner, Observer {
-            adapter.setList(it)
-        })
+
+
+
+
 
         return binding.root
     }
