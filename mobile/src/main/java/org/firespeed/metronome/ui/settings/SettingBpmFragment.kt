@@ -23,6 +23,7 @@ import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
 import org.firespeed.metronome.model.Bpm
 import org.firespeed.metronome.ui.SettingBpmViewModel
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class SettingBpmFragment : Fragment() {
 
@@ -33,7 +34,6 @@ class SettingBpmFragment : Fragment() {
     private val viewModel: SettingBpmViewModel by viewModels()
 
 
-    @ExperimentalCoroutinesApi
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -58,17 +58,19 @@ class SettingBpmFragment : Fragment() {
         }
         val adapter = BpmListAdapter{
             // onClickListener
-            binding.selectedItem = it
+            viewModel.selectBpm(it)
         }
         lifecycleScope.launch {
             viewModel.bpmListFlow.collect{
                 adapter.setList(it)
             }
-            viewModel.selectedBpmChannel.consume{
-
-            }
-
         }
+        lifecycleScope.launch {
+            viewModel.selectedBpmFlow.collect{
+                binding.selectedItem = it
+            }
+        }
+
         viewModel.getConfig()
         binding.bpmList.layoutManager = LinearLayoutManager(context)
         binding.bpmList.adapter = adapter
