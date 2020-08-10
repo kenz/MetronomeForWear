@@ -9,6 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.firespeed.metronome.model.Bpm
 import org.firespeed.metronome.model.BpmDataSource
@@ -21,9 +22,9 @@ class SettingBpmViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) : ViewModel() {
     private val bpmListChannel = Channel<List<Bpm>>(Channel.BUFFERED)
-    val bpmListFlow = bpmListChannel.consumeAsFlow()
+    val bpmListFlow = bpmListChannel.receiveAsFlow()
     private val selectedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
-    val selectedBpmFlow = selectedBpmChannel.consumeAsFlow()
+    val selectedBpmFlow = selectedBpmChannel.receiveAsFlow()
 
     fun getConfig() {
         viewModelScope.launch(Dispatchers.IO) {
