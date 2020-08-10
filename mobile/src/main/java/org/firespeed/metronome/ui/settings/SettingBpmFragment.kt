@@ -11,10 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.receiveAsFlow
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
 import org.firespeed.metronome.model.Bpm
@@ -60,26 +58,11 @@ class SettingBpmFragment : Fragment() {
             binding.bpmList.adapter = adapter
             viewModel.bpmListFlow.onEach {
                 adapter.setList(it)
-            }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
             viewModel.selectedBpmFlow.onEach {
                 binding.selectedItem = it
-            }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-            /*
-
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.bpmListFlow.collect {
-                    adapter.setList(it)
-                }
-            }
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.selectedBpmFlow.collect {
-                    binding.selectedItem = it
-                }
-            }
-
-             */
+                adapter.selectItem(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
 
         return binding.root

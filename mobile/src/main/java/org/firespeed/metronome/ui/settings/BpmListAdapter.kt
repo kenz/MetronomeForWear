@@ -32,13 +32,17 @@ class BpmListAdapter(
             this.item = item
             this.root.setOnClickListener{
                 clickListener.invoke(item)
-                notifyItemChanged(selectedItem)
-                selectedItem = position
-                notifyItemChanged(selectedItem)
             }
             holder.itemView.isSelected = position == selectedItem
         }
 
+    }
+
+    fun selectItem(selectItem: Bpm){
+        val position= list.indexOf(selectItem)
+        notifyItemChanged(selectedItem)
+        selectedItem = position
+        notifyItemChanged(selectedItem)
     }
 
     fun setList(bpmList: List<Bpm>) {

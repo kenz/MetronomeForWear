@@ -44,6 +44,7 @@ class SettingBpmViewModel @ViewModelInject constructor(
     fun selectBpm(bpm: Bpm) {
         viewModelScope.launch(Dispatchers.IO) {
             selectedBpmChannel.send(bpm)
+            preferencesDataSource.setSelectedBpm(bpm.uid)
         }
     }
 }
