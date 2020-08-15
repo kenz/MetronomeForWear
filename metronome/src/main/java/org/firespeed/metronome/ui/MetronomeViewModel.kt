@@ -14,7 +14,7 @@ class MetronomeViewModel @ViewModelInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle
 ) :
     ViewModel(), LifecycleObserver {
-    private val enable: MutableLiveData<Boolean>
+    private val enable: MutableLiveData<Boolean> = metronomeController.enable
     var isVibratorEnable = MutableLiveData<Boolean>()
     var isSoundEnable = MutableLiveData<Boolean>()
     var isVibratorCapability = MutableLiveData<Boolean>().also { it.value = false }
@@ -42,9 +42,6 @@ class MetronomeViewModel @ViewModelInject constructor(
         }
 
     init {
-
-
-        enable = metronomeController.enable
         metronomeController.taktTimeListener = {
             enableActionList.map { it.action() }
         }
@@ -54,19 +51,21 @@ class MetronomeViewModel @ViewModelInject constructor(
     fun onStart() {
         getSelectedBpm()
     }
+
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
         stop()
         enableActionList.clear()
     }
 
-    private fun getSelectedBpm(){
+    private fun getSelectedBpm() {
         viewModelScope.launch(Dispatchers.IO) {
             metronomeController.selectedBpmFlow().collect {
                 bpm.postValue(it.bpm.toString())
             }
         }
     }
+
     private fun start() = metronomeController.start()
     private fun stop() = metronomeController.stop()
 
