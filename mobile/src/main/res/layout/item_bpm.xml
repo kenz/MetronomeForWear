@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="item"
-            type="org.firespeed.metronome.model.Bpm" />
+            name="content"
+            type="org.firespeed.metronome.ui.settings.BpmItem" />
     </data>
 
     <LinearLayout
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@{item.title}"
+            android:text="@{content.bpm.title}"
             android:textColor="@color/item_list_primary"
             android:textSize="14sp"
             tools:text="hogehoge" />
@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:padding="8sp"
-            android:text="@{Integer.toString(item.bpm)}"
+            android:text="@{Integer.toString(content.bpm.bpm)}"
             android:textColor="@color/item_list_primary_dark"
             android:textSize="22sp"
             tools:text="888" />

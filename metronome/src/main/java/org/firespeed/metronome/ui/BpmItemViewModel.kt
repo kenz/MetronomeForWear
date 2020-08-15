@@ -18,7 +18,7 @@ import org.firespeed.metronome.model.BpmDataSource
 import org.firespeed.metronome.model.PreferencesDataSource
 
 @ExperimentalCoroutinesApi
-class SettingBpmViewModel @ViewModelInject constructor(
+class BpmItemViewModel @ViewModelInject constructor(
     @ActivityContext private val context: Context,
     private val bpmDataSource: BpmDataSource,
     private val preferencesDataSource: PreferencesDataSource,
@@ -54,9 +54,5 @@ class SettingBpmViewModel @ViewModelInject constructor(
             selectedBpmChannel.send(bpm)
             preferencesDataSource.setSelectedBpm(bpm.uid)
         }
-    }
-
-    fun onAddListener() {
-
     }
 }

@@ -36,7 +36,6 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             it.viewModel = viewModel
         }
 
-        binding.editBpm.addTextChangedListener { viewModel.setBpm(it.toString().toInt()) }
 
         lifecycle.addObserver(viewModel)
         if ((getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.hasVibrator() == true)

@@ -42,10 +42,22 @@ class SettingBpmFragment : Fragment() {
             binding.lifecycleOwner = this
             binding.viewModel = viewModel
 
-            val adapter = BpmListAdapter {
-                // onClickListener
-                viewModel.selectBpm(it)
-            }
+
+            val adapter = BpmListAdapter(object : BpmListAdapter.ItemInteractListener {
+                override fun onAddClickListener() = viewModel.onAddListener()
+
+
+                override fun editBpmListener(bpm: Bpm) {
+
+                }
+
+                override fun deleteBpmListener(bpm: Bpm) {
+                }
+                override fun selectBpmListener(bpm: Bpm) = viewModel.selectBpm(bpm)
+
+
+            }, MobileBpmListLayoutResolver())
+
             val llm = LinearLayoutManager(context)
             binding.bpmList.layoutManager = llm
             binding.add.setOnClickListener {
