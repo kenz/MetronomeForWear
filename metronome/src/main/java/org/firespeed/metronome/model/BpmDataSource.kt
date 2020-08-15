@@ -6,4 +6,5 @@ interface BpmDataSource {
     suspend fun loadById(uid: Long): Bpm
     suspend fun delete(bpm: Bpm)
     suspend fun deleteAll()
+    suspend fun maxOrder():Long
 }

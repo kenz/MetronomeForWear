@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Metronome</string>
+    <string name="bpm">BPM</string>
+    <string name="title">Title</string>
+    <string name="add">Add</string>
+    <string name="edit">Edit</string>
+    <string name="untitled">(Untitled)</string>
+
+</resources>

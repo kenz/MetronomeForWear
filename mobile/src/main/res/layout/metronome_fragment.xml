@@ -37,30 +37,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnStart" />
 
-        <SeekBar
-            android:id="@+id/seekBmp"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:max="208"
-            android:progress="@{viewModel.bpm}"
-            app:layout_constraintBottom_toTopOf="@+id/btnStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/txtBpm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:autofillHints=""
             android:ems="10"
-            tools:text="BPM"
-            android:textSize="20sp"
             android:gravity="center"
-            android:text="@{viewModel.bpm.toString()}"
-            app:layout_constraintBottom_toTopOf="@+id/seekBmp"
-            tools:layout_editor_absoluteX="106dp" />
+            android:text="@{viewModel.bpm}"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/btnStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="BPM" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

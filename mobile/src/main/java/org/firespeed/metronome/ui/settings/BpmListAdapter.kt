@@ -20,7 +20,9 @@ class BpmListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
-        return ItemViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_bpm, parent, false))
+        return ItemViewHolder(
+            LayoutInflater.from(parent.context).inflate(R.layout.item_bpm, parent, false)
+        )
     }
 
     override fun getItemCount(): Int = list.count()
@@ -30,7 +32,7 @@ class BpmListAdapter(
         holder.binding?.apply {
             val item = list[position]
             this.item = item
-            this.root.setOnClickListener{
+            this.root.setOnClickListener {
                 clickListener.invoke(item)
             }
             holder.itemView.isSelected = position == selectedItem
@@ -38,8 +40,8 @@ class BpmListAdapter(
 
     }
 
-    fun selectItem(selectItem: Bpm){
-        val position= list.indexOf(selectItem)
+    fun selectItem(selectItem: Bpm) {
+        val position = list.indexOf(selectItem)
         notifyItemChanged(selectedItem)
         selectedItem = position
         notifyItemChanged(selectedItem)
@@ -49,6 +51,12 @@ class BpmListAdapter(
         list.clear()
         list.addAll(bpmList)
         notifyDataSetChanged()
+    }
+
+    fun addBpm(bpm: Bpm) {
+        list.add(0, bpm)
+        notifyItemInserted(0)
+        selectItem(bpm)
     }
 
 }

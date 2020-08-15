@@ -41,20 +41,24 @@ class SettingBpmFragment : Fragment() {
             binding.fragment = this
             binding.lifecycleOwner = this
             binding.viewModel = viewModel
+
+            val adapter = BpmListAdapter {
+                // onClickListener
+                viewModel.selectBpm(it)
+            }
+            val llm = LinearLayoutManager(context)
+            binding.bpmList.layoutManager = llm
             binding.add.setOnClickListener {
                 val bpm = Bpm(
                     title = binding.title.text.toString(),
                     bpm = binding.bpm.text.toString().toInt(),
                     order = 0
                 )
-                viewModel.add(bpm)
-            }
-            val adapter = BpmListAdapter {
-                // onClickListener
-                viewModel.selectBpm(it)
+                viewModel.addBpm(bpm)
+                adapter.addBpm(bpm)
+                llm.scrollToPosition(0)
             }
             viewModel.getConfig()
-            binding.bpmList.layoutManager = LinearLayoutManager(context)
             binding.bpmList.adapter = adapter
             viewModel.bpmListFlow.onEach {
                 adapter.setList(it)
