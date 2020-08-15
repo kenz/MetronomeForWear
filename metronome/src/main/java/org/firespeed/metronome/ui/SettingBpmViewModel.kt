@@ -45,7 +45,7 @@ class SettingBpmViewModel @ViewModelInject constructor(
             bpm.title = context.getString(R.string.untitled).toString()
         }
         bpm.order = bpmDataSource.maxOrder() + 1
-        bpmDataSource.addBpm(bpm)
+        bpm.uid = bpmDataSource.addBpm(bpm)
         selectBpm(bpm)
     }
 

@@ -32,12 +32,8 @@ class MetronomeController @Inject constructor() {
 
     fun selectedBpmFlow(): Flow<Bpm> = flow {
         val selectedId = preferencesDataSource.getSelectedBpm()
-        emit(if (selectedId < 0L) {
-            Bpm.getDefaultBpm()
-        }else {
-            val selectedBpm = bpmDataSource.loadById(selectedId)
-            selectedBpm
-        })
+        val selectedBpm = bpmDataSource.loadById(selectedId)
+        emit(selectedBpm?:Bpm.getDefaultBpm())
     }
 
     private val bpmCalculator = BpmCalculator()

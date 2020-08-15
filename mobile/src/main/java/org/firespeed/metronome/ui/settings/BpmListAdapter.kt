@@ -56,7 +56,7 @@ class BpmListAdapter(
     fun addBpm(bpm: Bpm) {
         list.add(0, bpm)
         notifyItemInserted(0)
-        selectItem(bpm)
+        selectedItem++
     }
 
 }
