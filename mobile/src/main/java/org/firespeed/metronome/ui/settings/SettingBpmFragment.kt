@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.onEach
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
 import org.firespeed.metronome.model.Bpm
-import org.firespeed.metronome.ui.SettingBpmViewModel
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint

@@ -1,4 +1,4 @@
-package org.firespeed.metronome.ui
+package org.firespeed.metronome.ui.settings
 
 import android.content.Context
 import androidx.hilt.Assisted

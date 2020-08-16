@@ -18,5 +18,19 @@
         android:id="@+id/settingBpmFragment"
         android:name="org.firespeed.metronome.ui.settings.SettingBpmFragment"
         android:label="SettingBpmFragment"
-        tools:layout="@layout/setting_bpm_fragment" />
+        tools:layout="@layout/setting_bpm_fragment" >
+        <action
+            android:id="@+id/action_settingBpmFragment_to_editBpmDialogFragment"
+            app:destination="@id/editBpmDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/editBpmDialogFragment"
+        android:name="org.firespeed.metronome.ui.settings.EditBpmDialogFragment"
+        android:label="bpm_dialog_fragment"
+        tools:layout="@layout/bpm_dialog_fragment" >
+        <argument
+            android:name="editBpm"
+            app:argType="org.firespeed.metronome.model.Bpm"
+            />
+    </dialog>
 </navigation>
