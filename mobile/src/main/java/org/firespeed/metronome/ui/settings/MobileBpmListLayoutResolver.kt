@@ -22,6 +22,10 @@ class MobileBpmListLayoutResolver : BpmListAdapter.LayoutResolver {
         binding.root.setOnClickListener {
             itemInteractListener.selectBpmListener(bpmItem.bpm)
         }
+        binding.root.setOnLongClickListener {
+            itemInteractListener.editBpmListener(bpmItem.bpm)
+            true
+        }
     }
 
     override fun bindAddItem(

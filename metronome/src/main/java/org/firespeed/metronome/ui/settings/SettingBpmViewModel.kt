@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.firespeed.metronome.actions.R
@@ -28,6 +29,21 @@ class SettingBpmViewModel @ViewModelInject constructor(
     val bpmListFlow = bpmListChannel.receiveAsFlow()
     private val selectedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
     val selectedBpmFlow = selectedBpmChannel.receiveAsFlow()
+    private val insertedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
+    val insertedBpmFlow = insertedBpmChannel.receiveAsFlow()
+    private val updatedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
+    val updatedBpmFlow = updatedBpmChannel.receiveAsFlow()
+
+    var editingBpm: Bpm? = null
+
+    fun saveEditingBpm() {
+        editingBpm?.let {
+            if (it.uid == 0L)
+                insertBpm(it)
+            else
+                updateBpm(it)
+        }
+    }
 
     fun getConfig() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -40,13 +56,23 @@ class SettingBpmViewModel @ViewModelInject constructor(
         }
     }
 
-    fun addBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
+    private fun insertBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
         if (bpm.title.isEmpty()) {
-            bpm.title = context.getString(R.string.untitled).toString()
+            bpm.title = context.getString(R.string.untitled)
         }
         bpm.order = bpmDataSource.maxOrder() + 1
-        bpm.uid = bpmDataSource.addBpm(bpm)
+        bpm.uid = bpmDataSource.insertBpm(bpm)
         selectBpm(bpm)
+        insertedBpmChannel.send(bpm)
+    }
+
+    private fun updateBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
+        if (bpm.title.isEmpty()) {
+            bpm.title = context.getString(R.string.untitled)
+        }
+        bpmDataSource.updateBpm(bpm)
+        selectBpm(bpm)
+        updatedBpmChannel.send(bpm)
     }
 
     fun selectBpm(bpm: Bpm) {
@@ -56,7 +82,4 @@ class SettingBpmViewModel @ViewModelInject constructor(
         }
     }
 
-    fun onAddListener() {
-
-    }
 }

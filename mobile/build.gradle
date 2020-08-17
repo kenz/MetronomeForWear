@@ -5,7 +5,6 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
 
-
 android {
     compileSdkVersion 30
     buildFeatures {
@@ -61,10 +60,10 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     wearApp project(":wear")
-    def navVersion = "2.3.0"
-    api "androidx.navigation:navigation-fragment-ktx:$navVersion"
-    api "androidx.navigation:navigation-ui-ktx:$navVersion"
-    api "androidx.navigation:navigation-dynamic-features-fragment:$navVersion"
+
+    implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navVersion"
+
 
     // Hilt
     implementation "com.google.dagger:hilt-android:$hiltVersion"

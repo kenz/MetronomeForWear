@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,7 +27,7 @@ class SettingBpmFragment : Fragment() {
         fun newInstance() = SettingBpmFragment()
     }
 
-    private val viewModel: SettingBpmViewModel by viewModels()
+    private val viewModel: SettingBpmViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,15 +45,29 @@ class SettingBpmFragment : Fragment() {
 
 
             val adapter = BpmListAdapter(object : BpmListAdapter.ItemInteractListener {
-                override fun onAddClickListener() = viewModel.onAddListener()
+                override fun onAddClickListener() {
+                    viewModel.editingBpm = null
+                    findNavController().navigate(
+                        SettingBpmFragmentDirections.actionSettingBpmFragmentToEditBpmDialogFragment(
+                            null
+                        )
+                    )
+                }
 
 
                 override fun editBpmListener(bpm: Bpm) {
+                    viewModel.editingBpm = bpm
+                    findNavController().navigate(
+                        SettingBpmFragmentDirections.actionSettingBpmFragmentToEditBpmDialogFragment(
+                            bpm
+                        )
+                    )
 
                 }
 
                 override fun deleteBpmListener(bpm: Bpm) {
                 }
+
                 override fun selectBpmListener(bpm: Bpm) = viewModel.selectBpm(bpm)
 
 
@@ -59,23 +75,16 @@ class SettingBpmFragment : Fragment() {
 
             val llm = LinearLayoutManager(context)
             binding.bpmList.layoutManager = llm
-            binding.add.setOnClickListener {
-                val bpm = Bpm(
-                    title = binding.title.text.toString(),
-                    bpm = binding.bpm.text.toString().toInt(),
-                    order = 0
-                )
-                viewModel.addBpm(bpm)
-                adapter.addBpm(bpm)
+            viewModel.insertedBpmFlow.onEach {
+                adapter.addBpm(it)
                 llm.scrollToPosition(0)
-            }
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
             viewModel.getConfig()
             binding.bpmList.adapter = adapter
             viewModel.bpmListFlow.onEach {
                 adapter.setList(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
             viewModel.selectedBpmFlow.onEach {
-                binding.selectedItem = it
                 adapter.selectItem(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
