@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="org.firespeed.metronome.ui.settings.SettingBpmViewModel" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/margin_normal"
         tools:context=".ui.settings.EditBpmDialogFragment">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txtLayoutTitle"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
-            android:hint="@string/title">
+            android:hint="@string/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtTitle"
@@ -30,17 +35,21 @@
 
         <NumberPicker
             android:id="@+id/numBpm"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/txtLayoutTitle" />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/submit"
-            android:text="@string/submit"
-            android:layout_width="match_parent"
-            android:padding="@dimen/margin_normal"
+        <TextView
+            android:id="@+id/lblBpm"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            />
+            app:layout_constraintTop_toTopOf="@id/numBpm"
+            app:layout_constraintBottom_toBottomOf="@id/numBpm"
+            app:layout_constraintStart_toEndOf="@+id/numBpm"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/bpm" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
