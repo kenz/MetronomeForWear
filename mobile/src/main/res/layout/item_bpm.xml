@@ -1,41 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="content"
-            type="org.firespeed.metronome.ui.settings.BpmItem" />
+            type="org.firespeed.metronome.ui.settings.BpmListItem.BpmItem" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:background="@drawable/item_list_background"
         android:foreground="?android:selectableItemBackground"
-        android:background="@drawable/item_list_background">
-        <TextView
+        android:padding="8dp">
+
+        <EditText
             android:id="@+id/title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{content.bpm.title}"
             android:textColor="@color/item_list_primary"
             android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="hogehoge" />
 
-        <TextView
-            android:id="@+id/bpm"
-            android:layout_width="match_parent"
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/ic_delete"
+            android:contentDescription="@string/delete"
+            android:foreground="?android:selectableItemBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <TextView
+            android:id="@+id/lblBpm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="3"
             android:gravity="end"
             android:padding="8sp"
             android:text="@{Integer.toString(content.bpm.bpm)}"
             android:textColor="@color/item_list_primary_dark"
             android:textSize="22sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:text="888" />
 
+        <NumberPicker
+            android:id="@+id/numBpm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
-    </LinearLayout>
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="numBpm,lblBpm"
+            tools:layout_editor_absoluteX="403dp"
+            tools:layout_editor_absoluteY="8dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

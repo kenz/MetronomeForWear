@@ -37,34 +37,30 @@ class SettingBpmFragment : Fragment() {
             binding.fragment = this
             binding.lifecycleOwner = this
             binding.viewModel = viewModel
-
-            val adapter = BpmListAdapter(object : BpmListAdapter.ItemInteractListener {
-                override fun onAddClickListener() {
-                    viewModel.editingBpm = null
-                    findNavController().navigate(R.id.action_settingBpmFragment_to_editBpmDialogFragment)
-                }
-
-                override fun editBpmListener(bpm: Bpm) {
-                    viewModel.editingBpm = bpm
-                    findNavController().navigate(R.id.action_settingBpmFragment_to_editBpmDialogFragment)
-                }
-
-                override fun deleteBpmListener(bpm: Bpm) {
-                }
-
-                override fun selectBpmListener(bpm: Bpm) = viewModel.selectBpm(bpm)
-
-
-            }, MobileBpmListLayoutResolver())
+            val adapter = BpmListAdapter(MobileBpmListLayoutResolver()){event -> viewModel.handleListEvent(event)}
 
             val llm = LinearLayoutManager(context)
             binding.bpmList.layoutManager = llm
+            binding.bpmList.adapter = adapter
+            val helper = adapter.createItemTouchHelper()
+            helper.attachToRecyclerView(binding.bpmList)
+            binding.bpmList.addItemDecoration(helper)
+            viewModel.eventFlow.onEach { event ->
+                when(event){
+                    is SettingBpmViewModel.Event.StartCreate ->
+                    is SettingBpmViewModel.Event.Selected -> TODO()
+                    is SettingBpmViewModel.Event.Inserted -> TODO()
+                    is SettingBpmViewModel.Event.StartEdit -> TODO()
+                    is SettingBpmViewModel.Event.Edited -> TODO()
+                    is SettingBpmViewModel.Event.Deleted -> TODO()
+                    is SettingBpmViewModel.Event.Switched -> TODO()
+                }
+
+            }
             viewModel.insertedBpmFlow.onEach {
                 adapter.addBpm(it)
                 llm.scrollToPosition(0)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
-            viewModel.getConfig()
-            binding.bpmList.adapter = adapter
             viewModel.bpmListFlow.onEach {
                 adapter.setList(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
@@ -74,6 +70,8 @@ class SettingBpmFragment : Fragment() {
             viewModel.deletedBpmFlow.onEach {
                 adapter.deleteItem(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+            viewModel.getConfig()
+
         }
 
         return binding.root

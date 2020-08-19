@@ -7,7 +7,7 @@
 
         <variable
             name="content"
-            type="org.firespeed.metronome.ui.settings.AddItem" />
+            type="org.firespeed.metronome.ui.settings.BpmListItem.AddItem" />
     </data>
 
     <FrameLayout
