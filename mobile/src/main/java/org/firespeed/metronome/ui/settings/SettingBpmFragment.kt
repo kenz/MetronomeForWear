@@ -87,6 +87,9 @@ class SettingBpmFragment : Fragment() {
             viewModel.selectedBpmFlow.onEach {
                 adapter.selectItem(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
+            viewModel.deletedBpmFlow.onEach {
+                adapter.deleteItem(it)
+            }.launchIn(viewLifecycleOwner.lifecycleScope)
         }
 
         return binding.root

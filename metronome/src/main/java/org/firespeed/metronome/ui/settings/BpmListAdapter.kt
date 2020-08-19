@@ -71,14 +71,29 @@ class BpmListAdapter(
     }
 
     fun selectItem(bpm: Bpm) {
-        val selectedBpmItem =
-            list.filterIsInstance<BpmItem>().firstOrNull { it.bpm == bpm } ?: return
-        val position = list.indexOf(selectedBpmItem)
+        val position = findByIndex(bpm)?:return
         notifyItemChanged(selectedItem)
         selectedItem = position
         notifyItemChanged(selectedItem)
     }
 
+    fun updateItem(bpm: Bpm) {
+        val position = findByIndex(bpm)?:return
+        notifyItemChanged(selectedItem)
+        selectedItem = position
+        notifyItemChanged(selectedItem)
+    }
+
+    fun deleteItem(bpm: Bpm){
+        val position = findByIndex(bpm)?:return
+        notifyItemRemoved(position)
+    }
+
+    private fun findByIndex(bpm:Bpm):Int?{
+        val selectedBpmItem = list.filterIsInstance<BpmItem>().firstOrNull { it.bpm == bpm } ?: return null
+        return list.indexOf(selectedBpmItem)
+
+    }
     fun setList(bpmList: List<Bpm>) {
         list.clear()
         list.add(AddItem)

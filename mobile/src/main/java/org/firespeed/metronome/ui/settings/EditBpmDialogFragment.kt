@@ -39,8 +39,14 @@ class EditBpmDialogFragment : DialogFragment() {
                 viewModel.editingBpm?.also{
                     binding.numBpm.value = it.bpm
                     binding.txtTitle.setText(it.title)
+                    binding.btnDelete.visibility = View.VISIBLE
                 }?:run{
                     binding.numBpm.value = Bpm.DEFAULT_VALUE
+                    binding.txtTitle.setText("")
+                    binding.btnDelete.visibility = View.GONE
+                }
+                binding.btnDelete.setOnClickListener {
+                    deleteBpm()
                 }
             }
             builder.setView(binding.root)
@@ -61,6 +67,10 @@ class EditBpmDialogFragment : DialogFragment() {
         }
         viewModel.saveEditingBpm()
 
+    }
+    private fun deleteBpm(){
+        viewModel.deleteEditingBpm()
+        dismissAllowingStateLoss()
     }
 
 

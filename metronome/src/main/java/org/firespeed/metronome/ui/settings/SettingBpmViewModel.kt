@@ -33,6 +33,8 @@ class SettingBpmViewModel @ViewModelInject constructor(
     val insertedBpmFlow = insertedBpmChannel.receiveAsFlow()
     private val updatedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
     val updatedBpmFlow = updatedBpmChannel.receiveAsFlow()
+    private val deletedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
+    val deletedBpmFlow = deletedBpmChannel.receiveAsFlow()
 
     var editingBpm: Bpm? = null
 
@@ -42,6 +44,11 @@ class SettingBpmViewModel @ViewModelInject constructor(
                 insertBpm(it)
             else
                 updateBpm(it)
+        }
+    }
+    fun deleteEditingBpm(){
+        editingBpm?.let{
+            deleteBpm(it)
         }
     }
 
@@ -73,6 +80,11 @@ class SettingBpmViewModel @ViewModelInject constructor(
         bpmDataSource.updateBpm(bpm)
         selectBpm(bpm)
         updatedBpmChannel.send(bpm)
+    }
+    private fun deleteBpm(bpm:Bpm) = viewModelScope.launch (Dispatchers.IO){
+        // 先に削除する通知を送る
+        deletedBpmChannel.send(bpm)
+        bpmDataSource.delete(bpm)
     }
 
     fun selectBpm(bpm: Bpm) {
