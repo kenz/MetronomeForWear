@@ -6,10 +6,8 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,10 +19,6 @@ import org.firespeed.metronome.ui.MetronomeViewModel
 
 @AndroidEntryPoint
 class MetronomeFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = MetronomeFragment()
-    }
 
     private val viewModel: MetronomeViewModel by viewModels()
     private var binding: MetronomeFragmentBinding? = null
@@ -43,15 +37,7 @@ class MetronomeFragment : Fragment() {
             it.lifecycleOwner = this
             it.viewModel = viewModel
         }
-        binding.seekBmp.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
-                viewModel.setBpm(p1)
-            }
 
-            override fun onStartTrackingTouch(p0: SeekBar?) {}
-            override fun onStopTrackingTouch(p0: SeekBar?) {}
-
-        })
         binding.txtBpm.setOnClickListener {
             findNavController().navigate(R.id.action_metronomeFragment_to_settingBpmFragment)
         }

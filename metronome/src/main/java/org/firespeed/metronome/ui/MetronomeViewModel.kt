@@ -3,19 +3,25 @@ package org.firespeed.metronome.ui
 import androidx.hilt.Assisted
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.firespeed.metronome.actions.TaktAction
 import org.firespeed.metronome.controller.MetronomeController
 
-class MetronomeViewModel @ViewModelInject constructor(@Assisted private val savedStateHandle: SavedStateHandle) :
+class MetronomeViewModel @ViewModelInject constructor(
+    private val metronomeController: MetronomeController,
+    @Assisted private val savedStateHandle: SavedStateHandle
+) :
     ViewModel(), LifecycleObserver {
-    private val metronomeController: MetronomeController = MetronomeController()
-    val bpm: MutableLiveData<Int>
-    private val enable: MutableLiveData<Boolean>
-
+    private val enable: MutableLiveData<Boolean> = metronomeController.enable
     var isVibratorEnable = MutableLiveData<Boolean>()
     var isSoundEnable = MutableLiveData<Boolean>()
     var isVibratorCapability = MutableLiveData<Boolean>().also { it.value = false }
     var isSoundCapability = MutableLiveData<Boolean>().also { it.value = false }
+    val bpm: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
 
     private val enableActionList = ArrayList<TaktAction>()
     var actionVibrator: TaktAction? = null
@@ -36,20 +42,29 @@ class MetronomeViewModel @ViewModelInject constructor(@Assisted private val save
         }
 
     init {
-        bpm = metronomeController.bpm
-        enable = metronomeController.enable
         metronomeController.taktTimeListener = {
             enableActionList.map { it.action() }
         }
     }
 
-
-    fun setBpm(bpm: Int) = metronomeController.setBpm(bpm)
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
+    fun onStart() {
+        getSelectedBpm()
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
     fun onStop() {
         stop()
         enableActionList.clear()
+    }
+
+    private fun getSelectedBpm() {
+        viewModelScope.launch(Dispatchers.IO) {
+            metronomeController.selectedBpmFlow().collect {
+                bpm.postValue(it.bpm.toString())
+                metronomeController.bpm = it.bpm
+            }
+        }
     }
 
     private fun start() = metronomeController.start()
