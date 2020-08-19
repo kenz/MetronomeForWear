@@ -1,12 +1,9 @@
 package org.firespeed.metronome.ui.settings
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -22,13 +19,7 @@ import org.firespeed.metronome.model.Bpm
 @ExperimentalCoroutinesApi
 class EditBpmDialogFragment : DialogFragment() {
 
-    companion object {
-        fun newInstance() =
-            EditBpmDialogFragment()
-    }
-
     private val viewModel: SettingBpmViewModel by activityViewModels()
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         return activity?.let {activity ->

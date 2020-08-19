@@ -10,7 +10,6 @@ import dagger.hilt.android.qualifiers.ActivityContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import org.firespeed.metronome.actions.R
@@ -31,8 +30,6 @@ class SettingBpmViewModel @ViewModelInject constructor(
     val selectedBpmFlow = selectedBpmChannel.receiveAsFlow()
     private val insertedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
     val insertedBpmFlow = insertedBpmChannel.receiveAsFlow()
-    private val updatedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
-    val updatedBpmFlow = updatedBpmChannel.receiveAsFlow()
     private val deletedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
     val deletedBpmFlow = deletedBpmChannel.receiveAsFlow()
 
@@ -79,7 +76,6 @@ class SettingBpmViewModel @ViewModelInject constructor(
         }
         bpmDataSource.updateBpm(bpm)
         selectBpm(bpm)
-        updatedBpmChannel.send(bpm)
     }
     private fun deleteBpm(bpm:Bpm) = viewModelScope.launch (Dispatchers.IO){
         // 先に削除する通知を送る

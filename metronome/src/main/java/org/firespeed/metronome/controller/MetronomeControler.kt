@@ -17,19 +17,21 @@ class MetronomeController @Inject constructor() {
 
     var valueUpdateListener: ((Float) -> Unit)? = null
     var taktTimeListener: (() -> Unit)? = null
+
     @Inject
     lateinit var bpmDataSource: BpmDataSource
+
     @Inject
     lateinit var preferencesDataSource: PreferencesDataSource
 
     var bpm: Int? = null
-    set(value) {
-        if (value != this.bpm && value != null) {
-            animator.duration = bpmCalculator.toDuration(value)
-            animator.reset()
+        set(value) {
+            if (value != this.bpm && value != null) {
+                animator.duration = bpmCalculator.toDuration(value)
+                animator.reset()
+            }
+            field = value
         }
-        field = value
-    }
     val enable: MutableLiveData<Boolean> by lazy {
         MutableLiveData<Boolean>()
     }
@@ -38,7 +40,7 @@ class MetronomeController @Inject constructor() {
     fun selectedBpmFlow(): Flow<Bpm> = flow {
         val selectedId = preferencesDataSource.getSelectedBpm()
         val selectedBpm = bpmDataSource.loadById(selectedId)
-        emit(selectedBpm?:Bpm.getDefaultBpm())
+        emit(selectedBpm ?: Bpm.getDefaultBpm())
     }
 
     private val bpmCalculator = BpmCalculator()
@@ -60,7 +62,7 @@ class MetronomeController @Inject constructor() {
         animator = ValueAnimator.ofFloat(0f, 360f).apply {
             repeatMode = ValueAnimator.RESTART
             repeatCount = ValueAnimator.INFINITE
-            duration = bpmCalculator.toDuration(bpm?: 0)
+            duration = bpmCalculator.toDuration(bpm ?: 0)
             addUpdateListener(valueUpdateListener)
             addListener(repeatListener)
             interpolator = LinearInterpolator()
@@ -77,18 +79,6 @@ class MetronomeController @Inject constructor() {
         animator.cancel()
     }
 
-
-
-
-    fun reset() {
-        animator.reset()
-
-    }
-
-    companion object {
-        private const val DEFAULT_BPM = 60
-
-    }
-
+    fun reset() = animator.reset()
 
 }

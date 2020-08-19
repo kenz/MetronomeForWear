@@ -37,6 +37,7 @@
         <ImageButton
             android:id="@+id/btnDelete"
             android:background="@drawable/ic_delete"
+            android:foreground="?android:selectableItemBackground"
             android:padding="@dimen/margin_normal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

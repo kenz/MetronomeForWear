@@ -8,8 +8,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
 import org.firespeed.metronome.model.Bpm
-import javax.inject.Inject
-
 
 class BpmListAdapter(
     private val itemInteractListener: ItemInteractListener,
@@ -33,10 +31,10 @@ class BpmListAdapter(
     }
 
     interface ItemInteractListener {
-        fun onAddClickListener(): Unit
-        fun editBpmListener(bpm: Bpm): Unit
-        fun deleteBpmListener(bpm: Bpm): Unit
-        fun selectBpmListener(bpm: Bpm): Unit
+        fun onAddClickListener()
+        fun editBpmListener(bpm: Bpm)
+        fun deleteBpmListener(bpm: Bpm)
+        fun selectBpmListener(bpm: Bpm)
     }
 
     class BindingViewHolder(v: View) : RecyclerView.ViewHolder(v) {
@@ -51,8 +49,8 @@ class BpmListAdapter(
 
     override fun getItemViewType(position: Int): Int = list[position].toViewType()
     private fun BpmListItem.toViewType() = when (this) {
-        is AddItem -> org.firespeed.metronome.ui.settings.BpmListAdapter.VIEW_TYPE_ADD
-        else -> org.firespeed.metronome.ui.settings.BpmListAdapter.VIEW_TYPE_BPM
+        is AddItem -> VIEW_TYPE_ADD
+        else -> VIEW_TYPE_BPM
     }
 
     override fun getItemCount(): Int = list.count()
@@ -71,13 +69,6 @@ class BpmListAdapter(
     }
 
     fun selectItem(bpm: Bpm) {
-        val position = findByIndex(bpm)?:return
-        notifyItemChanged(selectedItem)
-        selectedItem = position
-        notifyItemChanged(selectedItem)
-    }
-
-    fun updateItem(bpm: Bpm) {
         val position = findByIndex(bpm)?:return
         notifyItemChanged(selectedItem)
         selectedItem = position

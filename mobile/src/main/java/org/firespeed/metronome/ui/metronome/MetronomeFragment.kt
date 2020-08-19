@@ -6,10 +6,8 @@ import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,10 +19,6 @@ import org.firespeed.metronome.ui.MetronomeViewModel
 
 @AndroidEntryPoint
 class MetronomeFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = MetronomeFragment()
-    }
 
     private val viewModel: MetronomeViewModel by viewModels()
     private var binding: MetronomeFragmentBinding? = null

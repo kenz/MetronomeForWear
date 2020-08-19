@@ -22,10 +22,6 @@ import org.firespeed.metronome.model.Bpm
 @AndroidEntryPoint
 class SettingBpmFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = SettingBpmFragment()
-    }
-
     private val viewModel: SettingBpmViewModel by activityViewModels()
 
     override fun onCreateView(
