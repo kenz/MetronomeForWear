@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,26 +42,15 @@ class SettingBpmFragment : Fragment() {
             binding.lifecycleOwner = this
             binding.viewModel = viewModel
 
-
             val adapter = BpmListAdapter(object : BpmListAdapter.ItemInteractListener {
                 override fun onAddClickListener() {
                     viewModel.editingBpm = null
-                    findNavController().navigate(
-                        SettingBpmFragmentDirections.actionSettingBpmFragmentToEditBpmDialogFragment(
-                            null
-                        )
-                    )
+                    findNavController().navigate(R.id.action_settingBpmFragment_to_editBpmDialogFragment)
                 }
-
 
                 override fun editBpmListener(bpm: Bpm) {
                     viewModel.editingBpm = bpm
-                    findNavController().navigate(
-                        SettingBpmFragmentDirections.actionSettingBpmFragmentToEditBpmDialogFragment(
-                            bpm
-                        )
-                    )
-
+                    findNavController().navigate(R.id.action_settingBpmFragment_to_editBpmDialogFragment)
                 }
 
                 override fun deleteBpmListener(bpm: Bpm) {
@@ -94,6 +82,5 @@ class SettingBpmFragment : Fragment() {
 
         return binding.root
     }
-
 
 }
