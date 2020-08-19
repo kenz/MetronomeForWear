@@ -62,6 +62,7 @@ class MetronomeViewModel @ViewModelInject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             metronomeController.selectedBpmFlow().collect {
                 bpm.postValue(it.bpm.toString())
+                metronomeController.bpm = it.bpm
             }
         }
     }
