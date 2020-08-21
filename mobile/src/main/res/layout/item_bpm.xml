@@ -17,19 +17,35 @@
         android:foreground="?android:selectableItemBackground"
         android:padding="8dp">
 
-        <EditText
+        <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{content.bpm.title}"
-            android:textColor="@color/item_list_primary"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@+id/barrier"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="hogehoge" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/editLayoutTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:hint="@string/title"
+            app:layout_constraintEnd_toStartOf="@+id/barrier"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTitle"
+                android:layout_width="match_parent"
+                tools:text="hogehoge"
+                android:text="@{content.bpm.title}"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
         <ImageButton
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
@@ -39,7 +55,8 @@
             android:foreground="?android:selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title" />
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/lblBpm"

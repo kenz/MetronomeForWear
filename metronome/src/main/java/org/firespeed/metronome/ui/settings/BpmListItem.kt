@@ -4,7 +4,7 @@ import org.firespeed.metronome.model.Bpm
 
 sealed class BpmListItem {
     object AddItem : BpmListItem()
-    class BpmItem(val bpm: Bpm) : BpmListItem()
+    class BpmItem(var bpm: Bpm) : BpmListItem()
 }
 
 

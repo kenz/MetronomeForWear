@@ -8,6 +8,7 @@ interface LayoutResolver {
     fun bindBpmItem(
         binding: ViewDataBinding,
         bpmItem: BpmListItem.BpmItem,
+        editing: Boolean,
         event: (BpmListAdapter.Event)->Unit
     )
 
@@ -16,8 +17,5 @@ interface LayoutResolver {
         addItem: BpmListItem.AddItem,
         event: (BpmListAdapter.Event)->Unit
     )
-
-    var selectedListener: ((bpm: Bpm) -> Unit)?
-    var selectedBpm: Bpm?
 }
 

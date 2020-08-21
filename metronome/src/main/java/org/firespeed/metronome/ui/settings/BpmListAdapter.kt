@@ -35,19 +35,18 @@ class BpmListAdapter(
 
     override fun getItemCount(): Int = list.count()
 
-    private var selectedItem = -1
-    private var editItem: Bpm? = null
+    private var selectedItemIndex: Int? = null
+    private var editingItemIndex: Int? = null
     override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
         when (val item = list[position]) {
             is BpmListItem.BpmItem -> {
-                layoutResolver.bindBpmItem(holder.binding, item, event)
-                holder.itemView.isSelected = position == selectedItem
-                layoutResolver.selectedListener = { bpm ->
-                    findByIndex(bpm)?.let {
-                        layoutResolver.selectedBpm = item.bpm
-                        notifyItemChanged(it)
-                    }
-                }
+                layoutResolver.bindBpmItem(
+                    holder.binding,
+                    item,
+                    editingItemIndex == position,
+                    event
+                )
+                holder.itemView.isSelected = position == selectedItemIndex
             }
             is BpmListItem.AddItem -> {
                 layoutResolver.bindAddItem(holder.binding, item, event)
@@ -55,33 +54,24 @@ class BpmListAdapter(
         }
     }
 
-    fun editBpm(bpm: Bpm) {
-        editItem = bpm
+    fun editItem(bpm: Bpm) {
+        editingItemIndex = findByIndex(bpm)?.also {
+            (list[it] as BpmListItem.BpmItem).bpm = bpm
+            notifyItemChanged(it)
+        }
     }
 
-    fun selectItem(bpm: Bpm) {
-        val position = findByIndex(bpm) ?: return
-        notifyItemChanged(selectedItem)
-        selectedItem = position
-        notifyItemChanged(selectedItem)
-    }
-
-
-    fun updateItem(bpm: Bpm) {
-        val position = findByIndex(bpm) ?: return
-        notifyItemChanged(selectedItem)
-        selectedItem = position
-        notifyItemChanged(selectedItem)
-    }
 
     fun deleteItem(bpm: Bpm) {
         val position = findByIndex(bpm) ?: return
         notifyItemRemoved(position)
     }
 
-    private fun findByIndex(bpm: Bpm): Int? {
+    private fun findByIndex(bpm: Bpm?): Int? {
+        if (bpm == null) return null
         val selectedBpmItem =
-            list.filterIsInstance<BpmListItem.BpmItem>().firstOrNull { it.bpm == bpm } ?: return null
+            list.filterIsInstance<BpmListItem.BpmItem>().firstOrNull { it.bpm == bpm }
+                ?: return null
         return list.indexOf(selectedBpmItem)
 
     }
@@ -93,10 +83,12 @@ class BpmListAdapter(
         notifyDataSetChanged()
     }
 
-    fun addBpm(bpm: Bpm) {
+    fun addItem(bpm: Bpm) {
         list.add(1, BpmListItem.BpmItem(bpm))
         notifyItemInserted(1)
-        selectedItem++
+        selectedItemIndex?.let {
+            this.selectedItemIndex = selectedItemIndex ?: 0 + 1
+        }
     }
 
     private fun getBpm(position: Int): Bpm? {
@@ -111,20 +103,31 @@ class BpmListAdapter(
                         makeFlag(ACTION_STATE_SWIPE, LEFT or RIGHT) or
                         makeFlag(ACTION_STATE_DRAG, DOWN or UP)
 
+            override fun onMoved(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                fromPos: Int,
+                target: RecyclerView.ViewHolder,
+                toPos: Int,
+                x: Int,
+                y: Int
+            ) {
+                super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
+                val fromBpm = getBpm(fromPos)
+                val toBpm = getBpm(toPos)
+                if (fromBpm != null && toBpm != null) {
+                    event.invoke(Event.Switch(fromBpm, toBpm))
+                }
+            }
+
             //ドラッグで場所を移動
             override fun onMove(
                 rv: RecyclerView,
                 fromVh: RecyclerView.ViewHolder,
                 toVh: RecyclerView.ViewHolder
             ): Boolean {
-                val from = fromVh.adapterPosition
-                val to = toVh.adapterPosition
-                val fromBpm = getBpm(from)
-                val toBpm = getBpm(to)
-                if (fromBpm != null && toBpm != null) {
-                    event.invoke(Event.Switch(fromBpm, toBpm))
-                }
-                return true
+                notifyItemMoved(fromVh.adapterPosition, toVh.adapterPosition)
+                return false
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -152,6 +155,26 @@ class BpmListAdapter(
                 }
             }
         })
+    }
+
+    fun startEditItem(bpm: Bpm) {
+        // 以前に編集中のアイテムがあれば場所を記録
+        val preEditItemIndex = editingItemIndex
+        val newEditItemIndex = findByIndex(bpm) ?: return
+        // 編集中のアイテムを更新
+        editingItemIndex = newEditItemIndex
+        // 以前に編集中のアイテムがあれば編集状態じゃなくする
+        preEditItemIndex?.let { notifyItemChanged(it) }
+        // 新たに編集対象とされたアイテムを編集状態とする
+        notifyItemChanged(newEditItemIndex)
+    }
+
+    fun selectItem(bpm: Bpm) {
+        val preSelectedItemIndex = selectedItemIndex
+        val newSelectedItemIndex = findByIndex(bpm) ?: return
+        selectedItemIndex = newSelectedItemIndex
+        preSelectedItemIndex?.let { notifyItemChanged(it) }
+        notifyItemChanged(newSelectedItemIndex)
     }
 
     sealed class Event {

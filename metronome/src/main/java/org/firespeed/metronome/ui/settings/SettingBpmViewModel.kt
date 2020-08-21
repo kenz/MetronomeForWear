@@ -49,6 +49,7 @@ class SettingBpmViewModel @ViewModelInject constructor(
         when (event) {
             is BpmListAdapter.Event.StartCreate ->  startCreate()
             is BpmListAdapter.Event.StartEdit -> startEdit(event.bpmItem)
+            is BpmListAdapter.Event.Edited -> updateBpm(event.bpmItem)
             is BpmListAdapter.Event.Select -> selectBpm(event.bpmItem)
             is BpmListAdapter.Event.Delete -> deleteBpm(event.bpmItem)
             is BpmListAdapter.Event.Switch -> switchBpm(event.bpmItem0, event.bpmItem1)
@@ -66,12 +67,12 @@ class SettingBpmViewModel @ViewModelInject constructor(
         }
     }
 
-    fun startCreate() = viewModelScope.launch(Dispatchers.IO){
+    private fun startCreate() = viewModelScope.launch(Dispatchers.IO){
         editingBpm = null
         eventChannel.send(Event.StartCreate)
     }
 
-    fun startEdit(bpm:Bpm) = viewModelScope.launch(Dispatchers.IO){
+    private fun startEdit(bpm:Bpm) = viewModelScope.launch(Dispatchers.IO){
         editingBpm = bpm
         eventChannel.send(Event.StartEdit(bpm))
     }
@@ -100,13 +101,17 @@ class SettingBpmViewModel @ViewModelInject constructor(
         bpmDataSource.delete(bpm)
     }
 
-    fun selectBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO){
+    private fun selectBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO){
         preferencesDataSource.setSelectedBpm(bpm.uid)
         eventChannel.send(Event.Selected(bpm))
     }
 
-    fun switchBpm(bpm0: Bpm, bpm1: Bpm) {
-
+    private fun switchBpm(bpm0: Bpm, bpm1: Bpm) = viewModelScope.launch(Dispatchers.IO){
+        val order1 = bpm0.order
+        bpm0.order = bpm1.order
+        bpm1.order = order1
+        bpmDataSource.updateBpm(bpm0)
+        bpmDataSource.updateBpm(bpm1)
     }
 
     sealed class Event {
@@ -116,7 +121,6 @@ class SettingBpmViewModel @ViewModelInject constructor(
         class StartEdit(val bpm: Bpm) : Event()
         class Edited(val bpm: Bpm) : Event()
         class Deleted(val bpm: Bpm) : Event()
-        class Switched(val bpm0: Bpm, val bpm1: Bpm) : Event()
     }
 
 

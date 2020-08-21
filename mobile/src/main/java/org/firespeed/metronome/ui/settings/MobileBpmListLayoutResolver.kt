@@ -18,27 +18,47 @@ class MobileBpmListLayoutResolver : LayoutResolver {
     override fun bindBpmItem(
         binding: ViewDataBinding,
         bpmItem: BpmListItem.BpmItem,
+        editing: Boolean,
         event: (BpmListAdapter.Event) -> Unit
     ) {
         (binding as ItemBpmBinding).content = bpmItem
+        binding.numBpm.minValue = Bpm.MIN_VALUE
+        binding.numBpm.maxValue = Bpm.MAX_VALUE
+        binding.numBpm.value = bpmItem.bpm.bpm
+
         binding.root.setOnClickListener {
             event.invoke(BpmListAdapter.Event.Select(bpmItem.bpm))
-            selectedListener?.invoke(bpmItem.bpm)
         }
-        binding.root.setOnLongClickListener {
-            event.invoke(BpmListAdapter.Event.StartEdit(bpmItem.bpm))
-            true
+        binding.title.setOnClickListener {
+            if(!editing)
+                event.invoke(BpmListAdapter.Event.StartEdit(bpmItem.bpm))
         }
-        if (bpmItem.bpm == selectedBpm) {
+        binding.editTitle.setOnFocusChangeListener { _, b ->
+            if (editing && !b) {
+                if(bpmItem.bpm.title != binding.editTitle.text.toString()) {
+                    bpmItem.bpm.title = binding.editTitle.text.toString()
+                    event.invoke(BpmListAdapter.Event.Edited(bpmItem.bpm))
+                }
+            }
+        }
+        binding.numBpm.setOnValueChangedListener { _, _, newValue ->
+            if(bpmItem.bpm.bpm != newValue) {
+                bpmItem.bpm.bpm = newValue
+                event.invoke(BpmListAdapter.Event.Edited(bpmItem.bpm))
+            }
+        }
+        if (editing) {
             binding.lblBpm.visibility = View.GONE
             binding.numBpm.visibility = View.VISIBLE
             binding.btnDelete.visibility = View.VISIBLE
-            binding.title.isEnabled = true
+            binding.title.visibility = View.GONE
+            binding.editLayoutTitle.visibility = View.VISIBLE
         } else {
             binding.lblBpm.visibility = View.VISIBLE
             binding.numBpm.visibility = View.GONE
             binding.btnDelete.visibility = View.GONE
-            binding.title.isEnabled = false
+            binding.title.visibility = View.VISIBLE
+            binding.editLayoutTitle.visibility = View.GONE
         }
     }
 
@@ -52,7 +72,4 @@ class MobileBpmListLayoutResolver : LayoutResolver {
             event.invoke(BpmListAdapter.Event.StartCreate)
         }
     }
-
-    override var selectedListener: ((bpm: Bpm) -> Unit)? = null
-    override var selectedBpm: Bpm? = null
 }

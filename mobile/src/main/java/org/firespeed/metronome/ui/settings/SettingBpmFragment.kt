@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.SettingBpmFragmentBinding
-import org.firespeed.metronome.model.Bpm
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -37,7 +36,9 @@ class SettingBpmFragment : Fragment() {
             binding.fragment = this
             binding.lifecycleOwner = this
             binding.viewModel = viewModel
-            val adapter = BpmListAdapter(MobileBpmListLayoutResolver()){event -> viewModel.handleListEvent(event)}
+            val adapter = BpmListAdapter(MobileBpmListLayoutResolver()) { event ->
+                viewModel.handleListEvent(event)
+            }
 
             val llm = LinearLayoutManager(context)
             binding.bpmList.layoutManager = llm
@@ -46,32 +47,23 @@ class SettingBpmFragment : Fragment() {
             helper.attachToRecyclerView(binding.bpmList)
             binding.bpmList.addItemDecoration(helper)
             viewModel.eventFlow.onEach { event ->
-                when(event){
+                when (event) {
                     is SettingBpmViewModel.Event.StartCreate ->
-                    is SettingBpmViewModel.Event.Selected -> TODO()
-                    is SettingBpmViewModel.Event.Inserted -> TODO()
-                    is SettingBpmViewModel.Event.StartEdit -> TODO()
-                    is SettingBpmViewModel.Event.Edited -> TODO()
-                    is SettingBpmViewModel.Event.Deleted -> TODO()
-                    is SettingBpmViewModel.Event.Switched -> TODO()
+                        findNavController().navigate(R.id.action_settingBpmFragment_to_editBpmDialogFragment)
+                    is SettingBpmViewModel.Event.Selected -> adapter.selectItem(event.bpm)
+                    is SettingBpmViewModel.Event.Inserted -> {
+                        adapter.addItem(event.bpm)
+                        llm.scrollToPosition(0)
+                    }
+                    is SettingBpmViewModel.Event.StartEdit -> adapter.startEditItem(event.bpm)
+                    is SettingBpmViewModel.Event.Edited -> adapter.editItem(event.bpm)
+                    is SettingBpmViewModel.Event.Deleted -> adapter.deleteItem(event.bpm)
                 }
-
-            }
-            viewModel.insertedBpmFlow.onEach {
-                adapter.addBpm(it)
-                llm.scrollToPosition(0)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
             viewModel.bpmListFlow.onEach {
                 adapter.setList(it)
             }.launchIn(viewLifecycleOwner.lifecycleScope)
-            viewModel.selectedBpmFlow.onEach {
-                adapter.selectItem(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
-            viewModel.deletedBpmFlow.onEach {
-                adapter.deleteItem(it)
-            }.launchIn(viewLifecycleOwner.lifecycleScope)
             viewModel.getConfig()
-
         }
 
         return binding.root
