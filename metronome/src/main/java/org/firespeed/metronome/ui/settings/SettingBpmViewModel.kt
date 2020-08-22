@@ -96,9 +96,8 @@ class SettingBpmViewModel @ViewModelInject constructor(
     }
 
     private fun deleteBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
-        // 最初に削除してしまうと削除されたアイテムをAdapterが探せなくなってしまうため先に削除する通知を送る
-        eventChannel.send(Event.Deleted(bpm))
         bpmDataSource.delete(bpm)
+        eventChannel.send(Event.Deleted(bpm))
     }
 
     private fun selectBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO){

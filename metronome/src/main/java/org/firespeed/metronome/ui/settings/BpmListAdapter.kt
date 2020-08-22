@@ -64,6 +64,7 @@ class BpmListAdapter(
 
     fun deleteItem(bpm: Bpm) {
         val position = findByIndex(bpm) ?: return
+        list.removeAt(position)
         notifyItemRemoved(position)
     }
 
