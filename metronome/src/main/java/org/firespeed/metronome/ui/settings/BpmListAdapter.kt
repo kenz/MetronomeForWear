@@ -149,10 +149,12 @@ class BpmListAdapter(
                 rv: RecyclerView,
                 fromVh: RecyclerView.ViewHolder,
                 toVh: RecyclerView.ViewHolder
-            ): Boolean {
-                notifyItemMoved(fromVh.adapterPosition, toVh.adapterPosition)
-                return true
-            }
+            ): Boolean =
+                if(fromVh.itemViewType == VIEW_TYPE_BPM&& toVh.itemViewType== VIEW_TYPE_BPM) {
+                    notifyItemMoved(fromVh.adapterPosition, toVh.adapterPosition)
+                    true
+                }else
+                    false
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
                 super.onSelectedChanged(viewHolder, actionState)
