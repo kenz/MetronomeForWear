@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.ItemTouchHelper.*
 import androidx.recyclerview.widget.RecyclerView
 import org.firespeed.metronome.model.Bpm
+import org.firespeed.metronome.switch
 
 class BpmListAdapter(
     private val layoutResolver: LayoutResolver,
@@ -64,6 +65,17 @@ class BpmListAdapter(
 
     fun deleteItem(bpm: Bpm) {
         val position = findByIndex(bpm) ?: return
+
+        selectedItemIndex?.let {
+            if (position < it) {
+                this.selectedItemIndex = (selectedItemIndex ?: 0) - 1
+            }
+        }
+        editingItemIndex?.let {
+            if (position < it) {
+                this.editingItemIndex = (editingItemIndex ?: 0) - 1
+            }
+        }
         list.removeAt(position)
         notifyItemRemoved(position)
     }
@@ -116,6 +128,17 @@ class BpmListAdapter(
                 super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
                 val fromBpm = getBpm(fromPos)
                 val toBpm = getBpm(toPos)
+                if (editingItemIndex == fromPos) {
+                    editingItemIndex = toPos
+                } else if (editingItemIndex == toPos) {
+                    editingItemIndex = fromPos
+                }
+                if (selectedItemIndex == fromPos) {
+                    selectedItemIndex = toPos
+                } else if (selectedItemIndex == toPos) {
+                    selectedItemIndex = toPos
+                }
+                list.switch(fromPos, toPos)
                 if (fromBpm != null && toBpm != null) {
                     event.invoke(Event.Switch(fromBpm, toBpm))
                 }
@@ -128,7 +151,7 @@ class BpmListAdapter(
                 toVh: RecyclerView.ViewHolder
             ): Boolean {
                 notifyItemMoved(fromVh.adapterPosition, toVh.adapterPosition)
-                return false
+                return true
             }
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
