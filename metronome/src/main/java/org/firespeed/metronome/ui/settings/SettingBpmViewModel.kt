@@ -26,15 +26,10 @@ class SettingBpmViewModel @ViewModelInject constructor(
 ) : ViewModel() {
     private val bpmListChannel = Channel<List<Bpm>>(Channel.BUFFERED)
     val bpmListFlow = bpmListChannel.receiveAsFlow()
-    private val selectedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
-    val selectedBpmFlow = selectedBpmChannel.receiveAsFlow()
-    private val insertedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
-    val insertedBpmFlow = insertedBpmChannel.receiveAsFlow()
-    private val deletedBpmChannel = Channel<Bpm>(Channel.BUFFERED)
-    val deletedBpmFlow = deletedBpmChannel.receiveAsFlow()
+    private val eventChannel = Channel<Event>(Channel.BUFFERED)
+    val eventFlow = eventChannel.receiveAsFlow()
 
     var editingBpm: Bpm? = null
-
     fun saveEditingBpm() {
         editingBpm?.let {
             if (it.uid == 0L)
@@ -43,21 +38,43 @@ class SettingBpmViewModel @ViewModelInject constructor(
                 updateBpm(it)
         }
     }
-    fun deleteEditingBpm(){
-        editingBpm?.let{
+
+    fun deleteEditingBpm() {
+        editingBpm?.let {
             deleteBpm(it)
+        }
+    }
+
+    fun handleListEvent(event: BpmListAdapter.Event)  {
+        when (event) {
+            is BpmListAdapter.Event.StartCreate ->  startCreate()
+            is BpmListAdapter.Event.StartEdit -> startEdit(event.bpmItem)
+            is BpmListAdapter.Event.Edited -> updateBpm(event.bpmItem)
+            is BpmListAdapter.Event.Select -> selectBpm(event.bpmItem)
+            is BpmListAdapter.Event.Delete -> deleteBpm(event.bpmItem)
+            is BpmListAdapter.Event.Switch -> switchBpm(event.bpmItem0, event.bpmItem1)
         }
     }
 
     fun getConfig() {
         viewModelScope.launch(Dispatchers.IO) {
-            val l = bpmDataSource.getAll()
-            bpmListChannel.send(l)
+            val allItem = bpmDataSource.getAll()
+            bpmListChannel.send(allItem)
             val selectedBpmUid = preferencesDataSource.getSelectedBpm()
-            l.firstOrNull { it.uid == selectedBpmUid }?.let {
-                selectedBpmChannel.send(it)
+            allItem.firstOrNull { it.uid == selectedBpmUid }?.let {
+                eventChannel.send(Event.Selected(it))
             }
         }
+    }
+
+    private fun startCreate() = viewModelScope.launch(Dispatchers.IO){
+        editingBpm = null
+        eventChannel.send(Event.StartCreate)
+    }
+
+    private fun startEdit(bpm:Bpm) = viewModelScope.launch(Dispatchers.IO){
+        editingBpm = bpm
+        eventChannel.send(Event.StartEdit(bpm))
     }
 
     private fun insertBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
@@ -67,7 +84,7 @@ class SettingBpmViewModel @ViewModelInject constructor(
         bpm.order = bpmDataSource.maxOrder() + 1
         bpm.uid = bpmDataSource.insertBpm(bpm)
         selectBpm(bpm)
-        insertedBpmChannel.send(bpm)
+        eventChannel.send(Event.Inserted(bpm))
     }
 
     private fun updateBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
@@ -77,17 +94,39 @@ class SettingBpmViewModel @ViewModelInject constructor(
         bpmDataSource.updateBpm(bpm)
         selectBpm(bpm)
     }
-    private fun deleteBpm(bpm:Bpm) = viewModelScope.launch (Dispatchers.IO){
-        // 先に削除する通知を送る
-        deletedBpmChannel.send(bpm)
+
+    private fun deleteBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO) {
         bpmDataSource.delete(bpm)
+        eventChannel.send(Event.Deleted(bpm))
     }
 
-    fun selectBpm(bpm: Bpm) {
-        viewModelScope.launch(Dispatchers.IO) {
-            selectedBpmChannel.send(bpm)
-            preferencesDataSource.setSelectedBpm(bpm.uid)
-        }
+    private fun selectBpm(bpm: Bpm) = viewModelScope.launch(Dispatchers.IO){
+        preferencesDataSource.setSelectedBpm(bpm.uid)
+        eventChannel.send(Event.Selected(bpm))
     }
 
+    private fun switchBpm(bpm0: Bpm, bpm1: Bpm) = viewModelScope.launch(Dispatchers.IO){
+        val order1 = bpm0.order
+        bpm0.order = bpm1.order
+        bpm1.order = order1
+        bpmDataSource.updateBpm(bpm0)
+        bpmDataSource.updateBpm(bpm1)
+    }
+
+    sealed class Event {
+        object StartCreate : Event()
+        class Selected(val bpm: Bpm) : Event()
+        class Inserted(val bpm: Bpm) : Event()
+        class StartEdit(val bpm: Bpm) : Event()
+        class Edited(val bpm: Bpm) : Event()
+        class Deleted(val bpm: Bpm) : Event()
+    }
+
+
+}
+
+fun MutableList<Bpm>.switch(a: Int, b: Int) {
+    val temp = get(a)
+    this[a] = this[b]
+    this[b] = temp
 }

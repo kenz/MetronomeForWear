@@ -3,4 +3,5 @@
     <dimen name="margin_normal">16dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_large">32dp</dimen>
+    <dimen name="indicator_width">4dp</dimen>
 </resources>
