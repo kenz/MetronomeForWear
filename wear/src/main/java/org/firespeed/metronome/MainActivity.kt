@@ -11,12 +11,13 @@ import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.FragmentActivity
 import androidx.wear.ambient.AmbientModeSupport
+import dagger.hilt.android.AndroidEntryPoint
 import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
 import org.firespeed.metronome.databinding.ActivityMainBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
 
-
+@AndroidEntryPoint
 class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider {
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback? {
         return MyAmbientCallback()
@@ -50,18 +51,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             binding.handShadow.rotation = it
         }
 
-        @Suppress("DEPRECATION")
-        val centerY =
-            (getSystemService(Context.WINDOW_SERVICE) as WindowManager).let {
-                val size = Point()
-                if (android.os.Build.VERSION.SDK_INT >= 30) {
-                    display?.getRealSize(size)
-                } else {
-                    it.defaultDisplay.getSize(size)
-                }
-                size.y / 2
-            }
-        binding.hand.viewTreeObserver.addOnGlobalLayoutListener {
+       binding.hand.viewTreeObserver.addOnGlobalLayoutListener {
+            val centerY = binding.metronome.height / 2
             binding.hand.pivotY = centerY - binding.hand.y
             binding.hand.pivotX = binding.hand.width / 2f
             binding.handShadow.pivotY = binding.hand.pivotY + binding.handShadow.y - binding.hand.y
