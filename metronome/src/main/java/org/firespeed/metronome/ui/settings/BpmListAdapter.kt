@@ -126,8 +126,8 @@ class BpmListAdapter(
                 y: Int
             ) {
                 super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
-                val fromBpm = getBpm(fromPos)
-                val toBpm = getBpm(toPos)
+                val fromBpm = getBpm(fromPos)?:return
+                val toBpm = getBpm(toPos)?:return
                 if (editingItemIndex == fromPos) {
                     editingItemIndex = toPos
                 } else if (editingItemIndex == toPos) {
@@ -139,9 +139,7 @@ class BpmListAdapter(
                     selectedItemIndex = toPos
                 }
                 list.switch(fromPos, toPos)
-                if (fromBpm != null && toBpm != null) {
-                    event.invoke(Event.Switch(fromBpm, toBpm))
-                }
+                event.invoke(Event.Switch(fromBpm, toBpm))
             }
 
             //ドラッグで場所を移動
