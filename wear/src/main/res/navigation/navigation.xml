@@ -3,22 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation.xml"
-    app:startDestination="@id/metronomeFragment">
+    app:startDestination="@id/settingBpmFragment">
 
-    <fragment
-        android:id="@+id/metronomeFragment"
-        android:name="org.firespeed.metronome.ui.metronome.MetronomeFragment"
-        android:label="MetronomeFragment"
-        tools:layout="@layout/metronome_mobile_fragment">
-        <action
-            android:id="@+id/action_metronomeFragment_to_settingBpmFragment"
-            app:destination="@id/settingBpmFragment" />
-    </fragment>
-    <fragment
+   <fragment
         android:id="@+id/settingBpmFragment"
         android:name="org.firespeed.metronome.ui.settings.SettingBpmFragment"
         android:label="SettingBpmFragment"
-        tools:layout="@layout/setting_bpm_mobile_fragment" >
+        tools:layout="@layout/setting_bpm_wear_fragment" >
         <action
             android:id="@+id/action_settingBpmFragment_to_editBpmDialogFragment"
             app:destination="@id/editBpmDialogFragment" />
@@ -27,5 +18,5 @@
         android:id="@+id/editBpmDialogFragment"
         android:name="org.firespeed.metronome.ui.settings.EditBpmDialogFragment"
         android:label="bpm_dialog_fragment"
-        tools:layout="@layout/edit_bpm_dialog_mobile_fragment" />
+        tools:layout="@layout/edit_bpm_dialog_wear_fragment" />
 </navigation>

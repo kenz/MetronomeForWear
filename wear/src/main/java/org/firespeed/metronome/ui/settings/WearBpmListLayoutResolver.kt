@@ -3,15 +3,15 @@ package org.firespeed.metronome.ui.settings
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import org.firespeed.metronome.R
-import org.firespeed.metronome.databinding.AddItemMobileBinding
-import org.firespeed.metronome.databinding.BpmItemMobileBinding
+import org.firespeed.metronome.databinding.AddItemWearBinding
+import org.firespeed.metronome.databinding.BpmItemWearBinding
 import org.firespeed.metronome.model.Bpm
 
 class MobileBpmListLayoutResolver : LayoutResolver {
     override fun getLayoutRes(viewType: Int): Int =
         when (viewType) {
-            BpmListAdapter.VIEW_TYPE_ADD -> R.layout.add_item_mobile
-            else -> R.layout.bpm_item_mobile
+            BpmListAdapter.VIEW_TYPE_ADD -> R.layout.add_item_wear
+            else -> R.layout.bpm_item_wear
         }
 
 
@@ -21,7 +21,7 @@ class MobileBpmListLayoutResolver : LayoutResolver {
         editing: Boolean,
         event: (BpmListAdapter.Event) -> Unit
     ) {
-        (binding as BpmItemMobileBinding).content = bpmItem
+        (binding as BpmItemWearBinding).content = bpmItem
         binding.numBpm.minValue = Bpm.MIN_VALUE
         binding.numBpm.maxValue = Bpm.MAX_VALUE
         binding.numBpm.value = bpmItem.bpm.bpm
@@ -67,7 +67,7 @@ class MobileBpmListLayoutResolver : LayoutResolver {
         addItem: BpmListItem.AddItem,
         event: (BpmListAdapter.Event) -> Unit
     ) {
-        (binding as AddItemMobileBinding).content = addItem
+        (binding as AddItemWearBinding).content = addItem
         binding.root.setOnClickListener {
             event.invoke(BpmListAdapter.Event.StartCreate)
         }

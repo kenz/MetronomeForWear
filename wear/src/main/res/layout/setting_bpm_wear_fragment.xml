@@ -20,10 +20,10 @@
         android:layout_height="match_parent"
         tools:context=".ui.settings.SettingBpmFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <androidx.wear.widget.WearableRecyclerView
             android:id="@+id/bpmList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_bpm" />
+            tools:listitem="@layout/bpm_item_wear" />
     </FrameLayout>
 </layout>
