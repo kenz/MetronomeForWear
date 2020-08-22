@@ -196,6 +196,7 @@ class BpmListAdapter(
     fun selectItem(bpm: Bpm) {
         val preSelectedItemIndex = selectedItemIndex
         val newSelectedItemIndex = findByIndex(bpm) ?: return
+        if(preSelectedItemIndex == newSelectedItemIndex)return
         selectedItemIndex = newSelectedItemIndex
         preSelectedItemIndex?.let { notifyItemChanged(it) }
         notifyItemChanged(newSelectedItemIndex)
