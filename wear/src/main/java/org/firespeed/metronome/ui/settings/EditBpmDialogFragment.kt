@@ -3,6 +3,7 @@ package org.firespeed.metronome.ui.settings
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
@@ -10,7 +11,7 @@ import androidx.fragment.app.activityViewModels
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.firespeed.metronome.R
-import org.firespeed.metronome.databinding.EditBpmDialogMobileFragmentBinding
+import org.firespeed.metronome.databinding.EditBpmDialogWearFragmentBinding
 import org.firespeed.metronome.model.Bpm
 
 
@@ -23,7 +24,7 @@ class EditBpmDialogFragment : DialogFragment() {
 
         return activity?.let {activity ->
             val builder = AlertDialog.Builder(activity)
-            val binding = DataBindingUtil.inflate<EditBpmDialogMobileFragmentBinding>(LayoutInflater.from(activity), R.layout.edit_bpm_dialog_mobile_fragment, null, false).also{ binding ->
+            val binding = DataBindingUtil.inflate<EditBpmDialogWearFragmentBinding>(LayoutInflater.from(activity), R.layout.edit_bpm_dialog_wear_fragment, null, false).also{ binding ->
                 binding.numBpm.maxValue = Bpm.MAX_VALUE
                 binding.numBpm.minValue = Bpm.MIN_VALUE
                 viewModel.editingBpm?.also{
@@ -36,7 +37,7 @@ class EditBpmDialogFragment : DialogFragment() {
             }
             builder.setView(binding.root)
                 .setPositiveButton(R.string.submit) { _, _ ->
-                    binding.txtLayoutTitle.requestFocus()
+                    binding.txtTitle.requestFocus()
                     saveBpm(binding.txtTitle.text.toString(), binding.numBpm.value)
                 }
             builder.create()
@@ -51,5 +52,7 @@ class EditBpmDialogFragment : DialogFragment() {
             viewModel.editingBpm = Bpm(title = title, bpm = bpm)
         }
         viewModel.saveEditingBpm()
+
     }
+
 }

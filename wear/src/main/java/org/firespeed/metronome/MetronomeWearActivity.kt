@@ -1,42 +1,70 @@
 package org.firespeed.metronome
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Point
 import android.os.Bundle
 import android.os.PowerManager
 import android.os.Vibrator
+import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.FragmentActivity
 import androidx.wear.ambient.AmbientModeSupport
+import dagger.hilt.android.AndroidEntryPoint
 import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
-import org.firespeed.metronome.databinding.ActivityMainBinding
+import org.firespeed.metronome.databinding.MetronomeWearActivityBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
+import org.firespeed.metronome.ui.settings.SettingActivity
 
-
-class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider {
+@AndroidEntryPoint
+class MetronomeWearActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvider {
     override fun getAmbientCallback(): AmbientModeSupport.AmbientCallback? {
         return MyAmbientCallback()
     }
 
     class MyAmbientCallback : AmbientModeSupport.AmbientCallback()
+    // Activity
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        return if (event.repeatCount == 0) {
+            when (keyCode) {
+                KeyEvent.KEYCODE_STEM_1 -> {
+                    viewModel.startStop()
+                    true
+                }
+                KeyEvent.KEYCODE_STEM_2 -> {
+                    openSetting()
+                    true
+                }
+                else -> super.onKeyDown(keyCode, event)
 
+            }
+        } else {
+            super.onKeyDown(keyCode, event)
+        }
+    }
+
+    private fun openSetting(){
+        startActivity(  Intent(this, SettingActivity::class.java))
+    }
     private val viewModel: MetronomeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.metronome_wear_activity)
 
-        val binding: ActivityMainBinding = setContentView(this, R.layout.activity_main)
+        val binding: MetronomeWearActivityBinding = setContentView(this, R.layout.metronome_wear_activity)
         binding.also {
             it.activity = this
             it.lifecycleOwner = this
             it.viewModel = viewModel
         }
 
-
+        binding.background.setOnLongClickListener{
+            openSetting()
+            true
+        }
         lifecycle.addObserver(viewModel)
         if ((getSystemService(Context.VIBRATOR_SERVICE) as Vibrator?)?.hasVibrator() == true)
             viewModel.actionVibrator =
@@ -50,18 +78,8 @@ class MainActivity : FragmentActivity(), AmbientModeSupport.AmbientCallbackProvi
             binding.handShadow.rotation = it
         }
 
-        @Suppress("DEPRECATION")
-        val centerY =
-            (getSystemService(Context.WINDOW_SERVICE) as WindowManager).let {
-                val size = Point()
-                if (android.os.Build.VERSION.SDK_INT >= 30) {
-                    display?.getRealSize(size)
-                } else {
-                    it.defaultDisplay.getSize(size)
-                }
-                size.y / 2
-            }
-        binding.hand.viewTreeObserver.addOnGlobalLayoutListener {
+       binding.hand.viewTreeObserver.addOnGlobalLayoutListener {
+            val centerY = binding.metronome.height / 2
             binding.hand.pivotY = centerY - binding.hand.y
             binding.hand.pivotX = binding.hand.width / 2f
             binding.handShadow.pivotY = binding.hand.pivotY + binding.handShadow.y - binding.hand.y

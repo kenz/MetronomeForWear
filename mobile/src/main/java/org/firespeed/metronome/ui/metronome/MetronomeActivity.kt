@@ -14,7 +14,7 @@ class MetronomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.metronome_activity)
+        setContentView(R.layout.metronome_mobile_activity)
         val host:NavHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
         val navController = host.navController
         val appBarConfiguration = AppBarConfiguration(navController.graph)

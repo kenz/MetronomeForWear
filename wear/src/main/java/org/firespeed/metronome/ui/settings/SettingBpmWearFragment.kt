@@ -10,12 +10,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.wear.widget.WearableLinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.firespeed.metronome.R
-import org.firespeed.metronome.databinding.SettingBpmMobileFragmentBinding
+import org.firespeed.metronome.databinding.SettingBpmWearFragmentBinding
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
@@ -27,9 +28,9 @@ class SettingBpmFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<SettingBpmMobileFragmentBinding>(
+        val binding = DataBindingUtil.inflate<SettingBpmWearFragmentBinding>(
             inflater,
-            R.layout.setting_bpm_mobile_fragment,
+            R.layout.setting_bpm_wear_fragment,
             container,
             false
         ).also { binding ->
@@ -41,6 +42,11 @@ class SettingBpmFragment : Fragment() {
             }
 
             val llm = LinearLayoutManager(context)
+            binding.bpmList.apply{
+                isEdgeItemsCenteringEnabled = true
+                layoutManager = WearableLinearLayoutManager(requireContext())
+            }
+
             binding.bpmList.layoutManager = llm
             binding.bpmList.adapter = adapter
             val helper = adapter.createItemTouchHelper()

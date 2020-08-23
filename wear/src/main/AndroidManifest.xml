@@ -17,8 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.DeviceDefault">
-        <activity android:name=".SettingBpmActivity"></activity>
+        android:theme="@style/AppTheme">
 
         <uses-library
             android:name="com.google.android.wearable"
@@ -32,14 +31,16 @@
             android:value="true" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".MetronomeWearActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.settings.SettingActivity"
+            android:label="@string/settings" />
     </application>
 
 </manifest>

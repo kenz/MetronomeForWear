@@ -14,22 +14,22 @@ import dagger.hilt.android.AndroidEntryPoint
 import org.firespeed.metronome.R
 import org.firespeed.metronome.actions.BeepTaktAction
 import org.firespeed.metronome.actions.VibratorTaktAction
-import org.firespeed.metronome.databinding.MetronomeFragmentBinding
+import org.firespeed.metronome.databinding.MetronomeMobileFragmentBinding
 import org.firespeed.metronome.ui.MetronomeViewModel
 
 @AndroidEntryPoint
 class MetronomeFragment : Fragment() {
 
     private val viewModel: MetronomeViewModel by viewModels()
-    private var binding: MetronomeFragmentBinding? = null
+    private var binding: MetronomeMobileFragmentBinding? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = DataBindingUtil.inflate<MetronomeFragmentBinding>(
+        val binding = DataBindingUtil.inflate<MetronomeMobileFragmentBinding>(
             inflater,
-            R.layout.metronome_fragment,
+            R.layout.metronome_mobile_fragment,
             container,
             false
         ).also {

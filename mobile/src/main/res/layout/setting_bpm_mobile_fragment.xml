@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="org.firespeed.metronome.ui.settings.SettingBpmViewModel" />
+
+        <variable
+            name="fragment"
+            type="org.firespeed.metronome.ui.settings.SettingBpmFragment" />
+
+    </data>
+
+    <FrameLayout
+        android:id="@+id/setting_bpm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.settings.SettingBpmFragment">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bpmList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/bpm_item_mobile" />
+    </FrameLayout>
+</layout>
