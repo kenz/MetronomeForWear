@@ -36,18 +36,15 @@ class BpmListAdapter(
 
     override fun getItemCount(): Int = list.count()
 
-    private var selectedItemIndex: Int? = null
-    private var editingItemIndex: Int? = null
     override fun onBindViewHolder(holder: BindingViewHolder, position: Int) {
         when (val item = list[position]) {
             is BpmListItem.BpmItem -> {
                 layoutResolver.bindBpmItem(
                     holder.binding,
                     item,
-                    editingItemIndex == position,
                     event
                 )
-                holder.itemView.isSelected = position == selectedItemIndex
+                holder.itemView.isSelected = item.selected
             }
             is BpmListItem.AddItem -> {
                 layoutResolver.bindAddItem(holder.binding, item, event)
@@ -55,39 +52,31 @@ class BpmListAdapter(
         }
     }
 
-    fun editItem(bpm: Bpm) {
-        editingItemIndex = findByIndex(bpm)?.also {
-            (list[it] as BpmListItem.BpmItem).bpm = bpm
-            notifyItemChanged(it)
+
+    fun editedItem(bpm: Bpm) {
+        findByItem(bpm)?.let {
+            it.editing = false
+            notifyItemChanged(list.indexOf(it))
         }
     }
 
 
     fun deleteItem(bpm: Bpm) {
-        val position = findByIndex(bpm) ?: return
-
-        selectedItemIndex?.let {
-            if (position < it) {
-                this.selectedItemIndex = (selectedItemIndex ?: 0) - 1
-            }
-        }
-        editingItemIndex?.let {
-            if (position < it) {
-                this.editingItemIndex = (editingItemIndex ?: 0) - 1
-            }
-        }
+        val deleteItem = findByItem(bpm) ?: return
+        val position = list.indexOf(deleteItem)
         list.removeAt(position)
         notifyItemRemoved(position)
     }
 
-    private fun findByIndex(bpm: Bpm?): Int? {
-        if (bpm == null) return null
-        val selectedBpmItem =
-            list.filterIsInstance<BpmListItem.BpmItem>().firstOrNull { it.bpm == bpm }
-                ?: return null
-        return list.indexOf(selectedBpmItem)
 
-    }
+    private fun findByItem(bpm: Bpm): BpmListItem.BpmItem? =
+        list.filterIsInstance<BpmListItem.BpmItem>().firstOrNull { it.bpm == bpm }
+
+    private fun findBySelectedItem(): BpmListItem.BpmItem? =
+        list.filterIsInstance<BpmListItem.BpmItem>().firstOrNull { it.selected }
+
+    private fun findByEditedItem(): BpmListItem.BpmItem? =
+        list.filterIsInstance<BpmListItem.BpmItem>().firstOrNull { it.editing }
 
     fun setList(bpmList: List<Bpm>) {
         list.clear()
@@ -99,9 +88,6 @@ class BpmListAdapter(
     fun addItem(bpm: Bpm) {
         list.add(1, BpmListItem.BpmItem(bpm))
         notifyItemInserted(1)
-        selectedItemIndex?.let {
-            this.selectedItemIndex = selectedItemIndex ?: 0 + 1
-        }
     }
 
     private fun getBpm(position: Int): Bpm? {
@@ -126,18 +112,8 @@ class BpmListAdapter(
                 y: Int
             ) {
                 super.onMoved(recyclerView, viewHolder, fromPos, target, toPos, x, y)
-                val fromBpm = getBpm(fromPos)?:return
-                val toBpm = getBpm(toPos)?:return
-                if (editingItemIndex == fromPos) {
-                    editingItemIndex = toPos
-                } else if (editingItemIndex == toPos) {
-                    editingItemIndex = fromPos
-                }
-                if (selectedItemIndex == fromPos) {
-                    selectedItemIndex = toPos
-                } else if (selectedItemIndex == toPos) {
-                    selectedItemIndex = toPos
-                }
+                val fromBpm = getBpm(fromPos) ?: return
+                val toBpm = getBpm(toPos) ?: return
                 list.switch(fromPos, toPos)
                 event.invoke(Event.Switch(fromBpm, toBpm))
             }
@@ -148,10 +124,10 @@ class BpmListAdapter(
                 fromVh: RecyclerView.ViewHolder,
                 toVh: RecyclerView.ViewHolder
             ): Boolean =
-                if(fromVh.itemViewType == VIEW_TYPE_BPM&& toVh.itemViewType== VIEW_TYPE_BPM) {
+                if (fromVh.itemViewType == VIEW_TYPE_BPM && toVh.itemViewType == VIEW_TYPE_BPM) {
                     notifyItemMoved(fromVh.adapterPosition, toVh.adapterPosition)
                     true
-                }else
+                } else
                     false
 
             override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
@@ -183,24 +159,34 @@ class BpmListAdapter(
 
     fun startEditItem(bpm: Bpm) {
         // 以前に編集中のアイテムがあれば場所を記録
-        val preEditItemIndex = editingItemIndex
-        val newEditItemIndex = findByIndex(bpm) ?: return
-        // 編集中のアイテムを更新
-        editingItemIndex = newEditItemIndex
-        // 以前に編集中のアイテムがあれば編集状態じゃなくする
-        preEditItemIndex?.let { notifyItemChanged(it) }
-        // 新たに編集対象とされたアイテムを編集状態とする
-        notifyItemChanged(newEditItemIndex)
+        val preEditItem = findByEditedItem()
+        if (bpm != preEditItem?.bpm) {
+            preEditItem?.let {
+                preEditItem.editing = false
+                val preEditIndex = list.indexOf(preEditItem)
+                notifyItemChanged(preEditIndex)
+            }
+            val editItem = findByItem(bpm) ?: return
+            editItem.editing = true
+            val editIndex = list.indexOf(editItem)
+            notifyItemChanged(editIndex)
+        }
     }
 
     fun selectItem(bpm: Bpm) {
-        val preSelectedItemIndex = selectedItemIndex
-        val newSelectedItemIndex = findByIndex(bpm) ?: return
-        if(preSelectedItemIndex == newSelectedItemIndex)return
-        selectedItemIndex = newSelectedItemIndex
-        preSelectedItemIndex?.let { notifyItemChanged(it) }
-        notifyItemChanged(newSelectedItemIndex)
-    }
+        val preSelectedItem = findBySelectedItem()
+        val selectedItem = findByItem(bpm)
+        if (preSelectedItem == selectedItem) return
+
+        preSelectedItem?.let {
+            it.selected = false
+            notifyItemChanged(list.indexOf(it))
+        }
+        selectedItem?.let{
+            it.selected = true
+            notifyItemChanged(list.indexOf(it))
+        }
+   }
 
     sealed class Event {
         object StartCreate : Event()

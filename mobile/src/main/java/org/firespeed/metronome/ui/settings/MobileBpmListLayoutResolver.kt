@@ -18,7 +18,6 @@ class MobileBpmListLayoutResolver : LayoutResolver {
     override fun bindBpmItem(
         binding: ViewDataBinding,
         bpmItem: BpmListItem.BpmItem,
-        editing: Boolean,
         event: (BpmListAdapter.Event) -> Unit
     ) {
         (binding as BpmItemMobileBinding).content = bpmItem
@@ -30,11 +29,11 @@ class MobileBpmListLayoutResolver : LayoutResolver {
             event.invoke(BpmListAdapter.Event.Select(bpmItem.bpm))
         }
         binding.title.setOnClickListener {
-            if(!editing)
+            if(!bpmItem.editing)
                 event.invoke(BpmListAdapter.Event.StartEdit(bpmItem.bpm))
         }
         binding.editTitle.setOnFocusChangeListener { _, b ->
-            if (editing && !b) {
+            if (bpmItem.editing && !b) {
                 if(bpmItem.bpm.title != binding.editTitle.text.toString()) {
                     bpmItem.bpm.title = binding.editTitle.text.toString()
                     event.invoke(BpmListAdapter.Event.Edited(bpmItem.bpm))
@@ -47,7 +46,7 @@ class MobileBpmListLayoutResolver : LayoutResolver {
                 event.invoke(BpmListAdapter.Event.Edited(bpmItem.bpm))
             }
         }
-        if (editing) {
+        if (bpmItem.editing) {
             binding.lblBpm.visibility = View.GONE
             binding.numBpm.visibility = View.VISIBLE
             binding.btnDelete.visibility = View.VISIBLE

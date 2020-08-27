@@ -62,7 +62,7 @@ class SettingBpmFragment : Fragment() {
                         llm.scrollToPosition(0)
                     }
                     is SettingBpmViewModel.Event.StartEdit -> adapter.startEditItem(event.bpm)
-                    is SettingBpmViewModel.Event.Edited -> adapter.editItem(event.bpm)
+                    is SettingBpmViewModel.Event.Edited -> adapter.editedItem(event.bpm)
                     is SettingBpmViewModel.Event.Deleted -> adapter.deleteItem(event.bpm)
                 }
             }.launchIn(viewLifecycleOwner.lifecycleScope)

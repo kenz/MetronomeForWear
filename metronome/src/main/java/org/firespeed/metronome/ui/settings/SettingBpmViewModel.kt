@@ -39,12 +39,6 @@ class SettingBpmViewModel @ViewModelInject constructor(
         }
     }
 
-    fun deleteEditingBpm() {
-        editingBpm?.let {
-            deleteBpm(it)
-        }
-    }
-
     fun handleListEvent(event: BpmListAdapter.Event)  {
         when (event) {
             is BpmListAdapter.Event.StartCreate ->  startCreate()
