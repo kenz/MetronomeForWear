@@ -98,9 +98,14 @@ class BpmListAdapter(
     fun createItemTouchHelper(): ItemTouchHelper {
         return ItemTouchHelper(object : Callback() {
             override fun getMovementFlags(rv: RecyclerView, vh: RecyclerView.ViewHolder): Int =
-                makeFlag(ACTION_STATE_IDLE, RIGHT) or
-                        makeFlag(ACTION_STATE_SWIPE, LEFT or RIGHT) or
-                        makeFlag(ACTION_STATE_DRAG, DOWN or UP)
+                if(vh.itemViewType == VIEW_TYPE_BPM) {
+                    makeFlag(ACTION_STATE_IDLE, LEFT) or
+                            makeFlag(ACTION_STATE_SWIPE,  LEFT) or
+                            makeFlag(ACTION_STATE_DRAG, DOWN or UP)
+                }else{
+                    0
+
+                }
 
             override fun onMoved(
                 recyclerView: RecyclerView,

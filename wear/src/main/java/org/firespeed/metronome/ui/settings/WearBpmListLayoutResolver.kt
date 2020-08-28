@@ -1,6 +1,7 @@
 package org.firespeed.metronome.ui.settings
 
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.databinding.ViewDataBinding
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.AddItemWearBinding
@@ -40,6 +41,7 @@ class MobileBpmListLayoutResolver : LayoutResolver {
                 }
             }
         }
+        binding.editTitle.imeOptions = EditorInfo.IME_ACTION_DONE
         binding.numBpm.setOnValueChangedListener { _, _, newValue ->
             if(bpmItem.bpm.bpm != newValue) {
                 bpmItem.bpm.bpm = newValue
@@ -52,12 +54,18 @@ class MobileBpmListLayoutResolver : LayoutResolver {
             binding.btnDelete.visibility = View.VISIBLE
             binding.title.visibility = View.GONE
             binding.editLayoutTitle.visibility = View.VISIBLE
+            binding.background.translationZ = 16f
         } else {
             binding.lblBpm.visibility = View.VISIBLE
             binding.numBpm.visibility = View.GONE
             binding.btnDelete.visibility = View.GONE
             binding.title.visibility = View.VISIBLE
             binding.editLayoutTitle.visibility = View.GONE
+            if(bpmItem.selected){
+                binding.background.translationZ = 8f
+            }else {
+                binding.background.translationZ = 0f
+            }
         }
     }
 

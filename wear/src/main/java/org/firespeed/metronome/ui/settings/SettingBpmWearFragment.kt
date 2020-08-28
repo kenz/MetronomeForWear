@@ -41,14 +41,13 @@ class SettingBpmFragment : Fragment() {
                 viewModel.handleListEvent(event)
             }
 
-            val llm = LinearLayoutManager(context)
             binding.bpmList.apply{
-                isEdgeItemsCenteringEnabled = true
+                //layoutManager = LinearLayoutManager(context)
                 layoutManager = WearableLinearLayoutManager(requireContext())
+                //isEdgeItemsCenteringEnabled = true
+                this.adapter = adapter
             }
 
-            binding.bpmList.layoutManager = llm
-            binding.bpmList.adapter = adapter
             val helper = adapter.createItemTouchHelper()
             helper.attachToRecyclerView(binding.bpmList)
             binding.bpmList.addItemDecoration(helper)
@@ -59,7 +58,7 @@ class SettingBpmFragment : Fragment() {
                     is SettingBpmViewModel.Event.Selected -> adapter.selectItem(event.bpm)
                     is SettingBpmViewModel.Event.Inserted -> {
                         adapter.addItem(event.bpm)
-                        llm.scrollToPosition(0)
+                        binding.bpmList.layoutManager?.scrollToPosition(0)
                     }
                     is SettingBpmViewModel.Event.StartEdit -> adapter.startEditItem(event.bpm)
                     is SettingBpmViewModel.Event.Edited -> adapter.editedItem(event.bpm)

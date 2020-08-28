@@ -38,6 +38,7 @@
         <NumberPicker
             android:id="@+id/numBpm"
             android:layout_width="wrap_content"
+            android:theme="@style/AppTheme.NumberPicker"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

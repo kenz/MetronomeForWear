@@ -50,6 +50,12 @@ class MetronomeWearActivity : FragmentActivity(), AmbientModeSupport.AmbientCall
         startActivity(  Intent(this, SettingActivity::class.java))
     }
     private val viewModel: MetronomeViewModel by viewModels()
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.getSelectedBpm()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.metronome_wear_activity)

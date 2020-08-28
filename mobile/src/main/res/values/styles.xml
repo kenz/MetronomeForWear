@@ -7,4 +7,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.NumberPicker" parent="AppTheme">
+        <item name="colorControlNormal">@color/colorAccent</item>
+    </style>
+
 </resources>

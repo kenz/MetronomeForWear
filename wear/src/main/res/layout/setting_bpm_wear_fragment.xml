@@ -14,16 +14,9 @@
 
     </data>
 
-    <FrameLayout
-        android:id="@+id/setting_bpm"
+    <androidx.wear.widget.WearableRecyclerView
+        android:id="@+id/bpmList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.settings.SettingBpmFragment">
-
-        <androidx.wear.widget.WearableRecyclerView
-            android:id="@+id/bpmList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/bpm_item_wear" />
-    </FrameLayout>
+        tools:listitem="@layout/bpm_item_wear" />
 </layout>

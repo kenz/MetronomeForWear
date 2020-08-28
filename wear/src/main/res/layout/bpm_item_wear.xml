@@ -11,30 +11,36 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/item_list_background"
         android:foreground="?android:selectableItemBackground"
-        android:padding="8dp">
-
-        <TextView
+        android:background="@drawable/item_list_background"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        >
+       <TextView
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@{content.bpm.title}"
             android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/barrier"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
             tools:text="hogehoge" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/editLayoutTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
             android:hint="@string/title"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toStartOf="@+id/barrier"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -42,10 +48,12 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTitle"
                 android:layout_width="match_parent"
-                tools:text="hogehoge"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
                 android:text="@{content.bpm.title}"
-                android:layout_height="wrap_content" />
+                tools:text="Title" />
         </com.google.android.material.textfield.TextInputLayout>
+
         <ImageButton
             android:id="@+id/btnDelete"
             android:layout_width="wrap_content"
@@ -77,6 +85,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            android:theme="@style/AppTheme.NumberPicker"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -90,7 +99,6 @@
             app:constraint_referenced_ids="numBpm,lblBpm"
             tools:layout_editor_absoluteX="403dp"
             tools:layout_editor_absoluteY="8dp" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
