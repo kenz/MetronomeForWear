@@ -4,14 +4,16 @@ import android.view.View
 import androidx.databinding.ViewDataBinding
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.AddItemMobileBinding
+import org.firespeed.metronome.databinding.BottomItemMobileBinding
 import org.firespeed.metronome.databinding.BpmItemMobileBinding
 import org.firespeed.metronome.model.Bpm
 
 class MobileBpmListLayoutResolver : LayoutResolver {
     override fun getLayoutRes(viewType: Int): Int =
         when (viewType) {
+            BpmListAdapter.VIEW_TYPE_BPM -> R.layout.bpm_item_mobile
             BpmListAdapter.VIEW_TYPE_ADD -> R.layout.add_item_mobile
-            else -> R.layout.bpm_item_mobile
+            else -> R.layout.bottom_item_mobile
         }
 
 
@@ -70,5 +72,13 @@ class MobileBpmListLayoutResolver : LayoutResolver {
         binding.root.setOnClickListener {
             event.invoke(BpmListAdapter.Event.StartCreate)
         }
+    }
+
+    override fun bindBottomItem(
+        binding: ViewDataBinding,
+        bottomItem: BpmListItem.BottomItem,
+        event: (BpmListAdapter.Event) -> Unit
+    ) {
+        (binding as BottomItemMobileBinding).content = bottomItem
     }
 }

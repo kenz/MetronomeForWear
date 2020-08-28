@@ -5,14 +5,16 @@ import android.view.inputmethod.EditorInfo
 import androidx.databinding.ViewDataBinding
 import org.firespeed.metronome.R
 import org.firespeed.metronome.databinding.AddItemWearBinding
+import org.firespeed.metronome.databinding.BottomItemWearBinding
 import org.firespeed.metronome.databinding.BpmItemWearBinding
 import org.firespeed.metronome.model.Bpm
 
 class MobileBpmListLayoutResolver : LayoutResolver {
     override fun getLayoutRes(viewType: Int): Int =
         when (viewType) {
+            BpmListAdapter.VIEW_TYPE_BPM -> R.layout.bpm_item_wear
             BpmListAdapter.VIEW_TYPE_ADD -> R.layout.add_item_wear
-            else -> R.layout.bpm_item_wear
+            else -> R.layout.bottom_item_wear
         }
 
 
@@ -78,5 +80,13 @@ class MobileBpmListLayoutResolver : LayoutResolver {
         binding.root.setOnClickListener {
             event.invoke(BpmListAdapter.Event.StartCreate)
         }
+    }
+
+    override fun bindBottomItem(
+        binding: ViewDataBinding,
+        bottomItem: BpmListItem.BottomItem,
+        event: (BpmListAdapter.Event) -> Unit
+    ) {
+        (binding as BottomItemWearBinding).content = bottomItem
     }
 }

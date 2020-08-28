@@ -30,8 +30,9 @@ class BpmListAdapter(
 
     override fun getItemViewType(position: Int): Int = list[position].toViewType()
     private fun BpmListItem.toViewType() = when (this) {
+        is BpmListItem.BpmItem -> VIEW_TYPE_BPM
         is BpmListItem.AddItem -> VIEW_TYPE_ADD
-        else -> VIEW_TYPE_BPM
+        else -> VIEW_TYPE_BOTTOM
     }
 
     override fun getItemCount(): Int = list.count()
@@ -46,9 +47,10 @@ class BpmListAdapter(
                 )
                 holder.itemView.isSelected = item.selected
             }
-            is BpmListItem.AddItem -> {
+            is BpmListItem.AddItem ->
                 layoutResolver.bindAddItem(holder.binding, item, event)
-            }
+            is BpmListItem.BottomItem ->
+                layoutResolver.bindBottomItem(holder.binding, item, event)
         }
     }
 
@@ -82,6 +84,7 @@ class BpmListAdapter(
         list.clear()
         list.add(BpmListItem.AddItem)
         list.addAll(bpmList.map { BpmListItem.BpmItem(it) })
+        list.add(BpmListItem.BottomItem)
         notifyDataSetChanged()
     }
 
@@ -98,14 +101,12 @@ class BpmListAdapter(
     fun createItemTouchHelper(): ItemTouchHelper {
         return ItemTouchHelper(object : Callback() {
             override fun getMovementFlags(rv: RecyclerView, vh: RecyclerView.ViewHolder): Int =
-                if(vh.itemViewType == VIEW_TYPE_BPM) {
+                if (vh.itemViewType == VIEW_TYPE_BPM)
                     makeFlag(ACTION_STATE_IDLE, LEFT) or
-                            makeFlag(ACTION_STATE_SWIPE,  LEFT) or
+                            makeFlag(ACTION_STATE_SWIPE, LEFT) or
                             makeFlag(ACTION_STATE_DRAG, DOWN or UP)
-                }else{
+                else
                     0
-
-                }
 
             override fun onMoved(
                 recyclerView: RecyclerView,
@@ -187,11 +188,11 @@ class BpmListAdapter(
             it.selected = false
             notifyItemChanged(list.indexOf(it))
         }
-        selectedItem?.let{
+        selectedItem?.let {
             it.selected = true
             notifyItemChanged(list.indexOf(it))
         }
-   }
+    }
 
     sealed class Event {
         object StartCreate : Event()
@@ -205,6 +206,7 @@ class BpmListAdapter(
     companion object {
         const val VIEW_TYPE_ADD = 1
         const val VIEW_TYPE_BPM = 2
+        const val VIEW_TYPE_BOTTOM = 3
     }
 }
 

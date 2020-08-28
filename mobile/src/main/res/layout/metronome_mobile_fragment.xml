@@ -23,7 +23,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="@dimen/margin_large"
-            android:background="@drawable/Background"
+            android:background="@drawable/background"
             />
 
         <Button

@@ -9,10 +9,14 @@ interface LayoutResolver {
         bpmItem: BpmListItem.BpmItem,
         event: (BpmListAdapter.Event)->Unit
     )
-
     fun bindAddItem(
         binding: ViewDataBinding,
         addItem: BpmListItem.AddItem,
+        event: (BpmListAdapter.Event)->Unit
+    )
+    fun bindBottomItem(
+        binding: ViewDataBinding,
+        bottomItem: BpmListItem.BottomItem,
         event: (BpmListAdapter.Event)->Unit
     )
 }
