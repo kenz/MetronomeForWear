@@ -41,7 +41,36 @@ class MetronomeFragment : Fragment() {
         binding.txtBpm.setOnClickListener {
             findNavController().navigate(R.id.action_metronomeFragment_to_settingBpmFragment)
         }
-        binding.progressBar.max = 360
+        binding.background.viewTreeObserver.addOnGlobalLayoutListener {
+            val parentWidth = binding.background.width
+            val parentHeight = binding.background.height
+            val handWidth = calcSize(parentWidth, 0.0721f)
+            val handHeight = calcSize(parentHeight, 0.5673f)
+            val requireRequestLayout  = handWidth != binding.hand.width
+            binding.hand.setSize(handWidth, handHeight)
+            binding.handShadow.setSize(handWidth, handHeight)
+            val holeCapWidth = calcSize(parentWidth, 0.05769f)
+            val holeCapHeight = calcSize(parentHeight, 0.0673076923f)
+            binding.holeCap.setSize(holeCapWidth, holeCapHeight)
+            val bpmWidth = calcSize(parentWidth, 0.125f)
+            val bpmHeight = calcSize(parentHeight, 0.2365f)
+            binding.txtBpm.setSize(bpmWidth, bpmHeight)
+            val centerY = binding.background.height / 2f
+            val handY = binding.hand.y - binding.background.y
+            binding.hand.pivotY = centerY - handY
+            binding.hand.pivotX = binding.hand.width / 2f
+            binding.handShadow.pivotY = binding.hand.pivotY + binding.handShadow.y - binding.hand.y
+            if(requireRequestLayout)binding.background.requestLayout()
+        }
+        binding.handShadow.viewTreeObserver.addOnGlobalLayoutListener {
+            binding.handShadow.pivotX = binding.handShadow.width / 2f
+        }
+        viewModel.setValueUpdateListener {
+            binding.hand.rotation = it
+            binding.handShadow.rotation = it
+        }
+        binding.background.requestLayout()
+
 
         lifecycle.addObserver(viewModel)
         context?.let { context ->
@@ -52,14 +81,17 @@ class MetronomeFragment : Fragment() {
                 )
             viewModel.actionSound = BeepTaktAction()
         }
-        viewModel.setValueUpdateListener {
-            binding.progressBar.progress = it.toInt()
-        }
         viewModel.isVibratorEnable.postValue(true)
         return binding.root
 
     }
 
+    private fun View.setSize(width: Int, height: Int) {
+        this.layoutParams.width = width
+        this.layoutParams.height = height
+    }
+
+    private fun calcSize(parent: Int, ratio: Float): Int = (parent * ratio).toInt()
 
     override fun onDestroyView() {
         super.onDestroyView()

@@ -2,9 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <variable name="viewModel"
-            type="org.firespeed.metronome.ui.MetronomeViewModel"/>
+
+        <variable
+            name="viewModel"
+            type="org.firespeed.metronome.ui.MetronomeViewModel" />
+
         <variable
             name="fragment"
             type="org.firespeed.metronome.ui.metronome.MetronomeFragment" />
@@ -15,53 +19,77 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.metronome.MetronomeFragment">
+
         <ImageView
+            android:id="@+id/background"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintDimensionRatio="1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="@dimen/margin_large"
-            android:background="@drawable/background"
-            />
-
-        <Button
-            android:id="@+id/btnStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="start"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:onClick="@{() -> viewModel.startStop()}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:src="@drawable/metronome_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnStart" />
-
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/txtBpm"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:drawablePadding="0dp"
+            android:fadingEdge="none"
+            android:fontFamily="@font/orbitron"
+            android:gravity="center|end"
+            android:padding="0dp"
+            android:text="@{viewModel.bpm.toString()}"
+            android:maxLines="1"
+            android:textColor="#e0e0e0"
+            android:textCursorDrawable="@null"
+            app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toBottomOf="@+id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintHorizontal_bias="0.76"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            tools:ignore="LabelFor"
+            tools:text="199" />
+
+        <ImageView
+            android:id="@+id/hand_shadow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:autofillHints=""
-            android:ems="10"
-            android:gravity="center"
-            android:text="@{viewModel.bpm}"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/btnStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="BPM" />
+            android:src="@drawable/hand_shadow"
+            app:layout_constraintBottom_toBottomOf="@id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintVertical_bias="0.17"
+            />
 
+        <ImageView
+            android:id="@+id/hand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/hand"
+            app:layout_constraintBottom_toBottomOf="@id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            app:layout_constraintVertical_bias="0.15"
+            />
+        <ImageView
+            android:id="@+id/holeCap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/holecap"
+            app:layout_constraintBottom_toBottomOf="@id/background"
+            app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintStart_toStartOf="@id/background"
+            app:layout_constraintTop_toTopOf="@id/background"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

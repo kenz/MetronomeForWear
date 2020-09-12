@@ -94,28 +94,28 @@
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintHeight_percent="0.163"
-            app:layout_constraintWidth_percent="0.163"
             app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.36"
+            app:layout_constraintWidth_percent="0.163"
             tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/vibrator"
-            android:visibility="@{viewModel.isVibratorCapability?View.VISIBLE:View.GONE}"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/vibrator"
             android:onClick="@{() -> viewModel.switchVibrator()}"
             android:src="@{viewModel.isVibratorEnable?@drawable/vibrator_on:@drawable/vibrator}"
+            android:visibility="@{viewModel.isVibratorCapability?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
+            app:layout_constraintHeight_percent="0.163"
             app:layout_constraintHorizontal_bias="0.33"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.64"
-            app:layout_constraintHeight_percent="0.163"
             app:layout_constraintWidth_percent="0.163"
             tools:visibility="visible" />
 
