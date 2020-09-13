@@ -127,6 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:onClick="@{() -> viewModel.reset()}"
             android:background="@drawable/btn_background"
             android:contentDescription="@string/vibrator"
             android:fontFamily="@font/orbitron"
