@@ -8,10 +8,10 @@
         <variable
             name="viewModel"
             type="org.firespeed.metronome.ui.MetronomeViewModel" />
-
         <variable
             name="fragment"
             type="org.firespeed.metronome.ui.metronome.MetronomeFragment" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -43,9 +43,9 @@
             android:fadingEdge="none"
             android:fontFamily="@font/orbitron"
             android:gravity="center|end"
+            android:maxLines="1"
             android:padding="0dp"
             android:text="@{viewModel.bpm.toString()}"
-            android:maxLines="1"
             android:textColor="#e0e0e0"
             android:textCursorDrawable="@null"
             app:autoSizeTextType="uniform"
@@ -66,8 +66,8 @@
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
-            app:layout_constraintVertical_bias="0.17"
-            />
+            app:layout_constraintVertical_bias="0.16"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/hand"
@@ -79,7 +79,8 @@
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.15"
-            />
+            tools:ignore="ContentDescription" />
+
         <ImageView
             android:id="@+id/holeCap"
             android:layout_width="wrap_content"
@@ -89,7 +90,51 @@
             app:layout_constraintEnd_toEndOf="@id/background"
             app:layout_constraintStart_toStartOf="@id/background"
             app:layout_constraintTop_toTopOf="@id/background"
-            />
+            tools:ignore="ContentDescription" />
+
+        <CheckBox
+            android:id="@+id/btnVibrator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:background="@drawable/btn_background"
+            android:button="@drawable/ic_vibrator"
+            android:checked="@{viewModel.isVibratorEnable()}"
+            android:contentDescription="@string/vibrator"
+            android:onClick="@{() -> viewModel.switchVibrator()}"
+            android:visibility="@{viewModel.isVibratorCapability?View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <CheckBox
+            android:id="@+id/btnSound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_background"
+            android:button="@drawable/ic_sound"
+            android:onClick="@{() -> viewModel.switchSound()}"
+            android:visibility="@{viewModel.isSoundCapability?View.VISIBLE:View.GONE}"
+            android:checked="@{viewModel.isSoundEnable()}"
+            android:contentDescription="@string/vibrator"
+            app:layout_constraintBottom_toBottomOf="@id/btnVibrator"
+            app:layout_constraintEnd_toStartOf="@+id/btnVibrator"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btnReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/btn_background"
+            android:contentDescription="@string/vibrator"
+            android:fontFamily="@font/orbitron"
+            android:text="@string/reset"
+            android:textColor="@color/checkbox_foreground"
+            app:layout_constraintBottom_toBottomOf="@id/btnVibrator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btnVibrator" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

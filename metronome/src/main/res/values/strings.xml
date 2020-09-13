@@ -5,5 +5,7 @@
     <string name="add">Add</string>
     <string name="edit">Edit</string>
     <string name="untitled">(Untitled)</string>
+    <string name="vibrator">Vibrator</string>
+    <string name="reset">RESET</string>
 
 </resources>

@@ -44,7 +44,6 @@
             android:layout_height="0dp"
             android:autofillHints=""
             android:background="@null"
-            android:capitalize="none"
             android:cursorVisible="false"
             android:drawablePadding="0dp"
             android:ems="10"
@@ -52,6 +51,7 @@
             android:fontFamily="@font/orbitron"
             android:gravity="end"
             android:inputType="numberSigned"
+            android:maxLines="1"
             android:padding="0dp"
             android:text="@{viewModel.bpm.toString()}"
             android:textColor="#e0e0e0"
@@ -106,8 +106,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:contentDescription="@string/vibrator"
-            android:onClick="@{() -> viewModel.switchVibrator()}"
             android:src="@{viewModel.isVibratorEnable?@drawable/vibrator_on:@drawable/vibrator}"
+            android:onClick="@{() -> viewModel.switchVibrator()}"
             android:visibility="@{viewModel.isVibratorCapability?View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/background"
             app:layout_constraintEnd_toEndOf="@id/background"
@@ -130,7 +130,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.17"
-            app:layout_constraintWidth_percent="0.0721" />
+            app:layout_constraintWidth_percent="0.0721"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/hand"
@@ -143,7 +144,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/background"
             app:layout_constraintVertical_bias="0.15"
-            app:layout_constraintWidth_percent="0.0721" />
+            app:layout_constraintWidth_percent="0.0721"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/hole_cap"
@@ -155,7 +157,8 @@
             app:layout_constraintHeight_percent="0.105"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="0.0865" />
+            app:layout_constraintWidth_percent="0.0865"
+            tools:ignore="ContentDescription" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

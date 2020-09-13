@@ -5,8 +5,9 @@
     <color name="colorPrimaryLightFog">#44455a64</color>
     <color name="colorPrimaryDark">#1c313a</color>
     <color name="colorAccent">#ff1744</color>
-    <color name="colorBackground">#fff</color>
+    <color name="colorBackground">#c0d0f0</color>
     <color name="colorSelect">#819ca9</color>
+    <color name="colorBlack">#000</color>
     <color name="colorSecondary">#fbc02d</color>
     <color name="colorSecondaryLight">#fff263</color>
     <color name="colorSecondaryDark">#c49000</color>
